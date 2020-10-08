@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.scss";
 import SubmitReplayForm from "./SubmitReplayForm";
+import Guy from "./Guy";
 
 const EXAMPLE_TAGS = [
   "player:terran",
@@ -62,16 +63,27 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      replayId: "",
+      replayData: "",
       selectedTags: [],
-      replayPath: "",
       notes: "",
+
+      setReplayId: (replayId) => this.setState({ replayId: replayId }),
+
+      setReplayData: (replayData) => this.setState({ replayData: replayData }),
 
       setSelectedTags: (selectedTags) =>
         this.setState({ selectedTags: selectedTags }),
 
-      setReplayPath: (replayPath) => this.setState({ replayPath: replayPath }),
+      setNotes: (notes) => this.setState({ notes: notes }),
 
-      setNotes: (notes) => this.setState({notes: notes}),
+      submitTaggedReplay: () =>
+        Guy.submitTaggedReplay({
+          replayId: this.state.replayId,
+          replayData: this.state.replayData,
+          selectedTags: this.state.selectedTags,
+          notes: this.state.notes,
+        }),
     };
   }
 

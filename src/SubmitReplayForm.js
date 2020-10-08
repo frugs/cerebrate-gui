@@ -15,7 +15,7 @@ import "./SubmitReplayForm.css";
 import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
 
-function SubmitReplayForm({ setNotes, ...other }) {
+function SubmitReplayForm({ replayId, setNotes, submitTaggedReplay, ...other }) {
   return (
     <Card
       interactive={true}
@@ -25,7 +25,7 @@ function SubmitReplayForm({ setNotes, ...other }) {
       <H2>Save replay tags</H2>
       <br />
       <FormGroup label="Replay ID">
-        <InputGroup disabled={true} fill={true} value="" />
+        <InputGroup disabled={true} fill={true} value={replayId} />
       </FormGroup>
       <FormGroup label="Replay path">
         <ReplaySelector {...other} />
@@ -57,7 +57,7 @@ function SubmitReplayForm({ setNotes, ...other }) {
           onChange={(event) => setNotes(event.target.value)}
         />
       </FormGroup>
-      <Button fill={true} intent={Intent.SUCCESS}>
+      <Button fill={true} intent={Intent.SUCCESS} onClick={submitTaggedReplay}>
         Save tags
       </Button>
     </Card>
