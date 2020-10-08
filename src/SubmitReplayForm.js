@@ -4,17 +4,18 @@ import {
   Button,
   Card,
   Elevation,
-  FileInput,
   FormGroup,
   H2,
   InputGroup,
-  Intent, TextArea,
+  Intent,
+  TextArea,
 } from "@blueprintjs/core";
 
 import "./SubmitReplayForm.css";
 import SelectTagsInput from "./SelectTagsInput";
+import ReplaySelector from "./ReplaySelector";
 
-function SubmitReplayForm({ ...other }) {
+function SubmitReplayForm({ setNotes, ...other }) {
   return (
     <Card
       interactive={true}
@@ -27,7 +28,7 @@ function SubmitReplayForm({ ...other }) {
         <InputGroup disabled={true} fill={true} value="" />
       </FormGroup>
       <FormGroup label="Replay path">
-        <FileInput text="Choose replay file..." />
+        <ReplaySelector {...other} />
       </FormGroup>
       <FormGroup label="Player tags">
         <SelectTagsInput
@@ -51,9 +52,14 @@ function SubmitReplayForm({ ...other }) {
         />
       </FormGroup>
       <FormGroup label="Notes">
-        <TextArea fill={true}/>
+        <TextArea
+          fill={true}
+          onChange={(event) => setNotes(event.target.value)}
+        />
       </FormGroup>
-      <Button fill={true} intent={Intent.SUCCESS}>Save tags</Button>
+      <Button fill={true} intent={Intent.SUCCESS}>
+        Save tags
+      </Button>
     </Card>
   );
 }

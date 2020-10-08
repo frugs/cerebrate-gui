@@ -63,9 +63,15 @@ class App extends React.Component {
 
     this.state = {
       selectedTags: [],
+      replayPath: "",
+      notes: "",
 
       setSelectedTags: (selectedTags) =>
         this.setState({ selectedTags: selectedTags }),
+
+      setReplayPath: (replayPath) => this.setState({ replayPath: replayPath }),
+
+      setNotes: (notes) => this.setState({notes: notes}),
     };
   }
 
