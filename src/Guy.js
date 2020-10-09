@@ -1,22 +1,7 @@
 const debugFunc = (...args) => console.log(args);
 
-const sleep = async (ms) => await new Promise((resolve) => setTimeout(resolve, 2000));
-
-const submitTaggedReplayDebugFunc = async (...args) => {
-  debugFunc(args);
-
-  if (args.length < 1) {
-    return;
-  }
-
-  const { replayId } = args[0];
-
-  await sleep(1500);
-
-  Guy.onReplayUpdatedListeners.forEach((listener) =>
-    listener.onReplayUpdated({ success: true, replayId: replayId })
-  );
-};
+const sleep = async (ms) =>
+  await new Promise((resolve) => setTimeout(resolve, ms));
 
 const selectReplayDebugFunc = async (...args) => {
   debugFunc(args);
@@ -24,6 +9,8 @@ const selectReplayDebugFunc = async (...args) => {
   if (args.length < 1) {
     return;
   }
+
+  await sleep(200);
 
   const { replayId } = args[0];
 
@@ -35,6 +22,22 @@ const selectReplayDebugFunc = async (...args) => {
       notes: "Some fake notes",
       force: false,
     })
+  );
+};
+
+const submitTaggedReplayDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  if (args.length < 1) {
+    return;
+  }
+
+  const { replayId } = args[0];
+
+  await sleep(500);
+
+  Guy.onReplayUpdatedListeners.forEach((listener) =>
+      listener.onReplayUpdated({ success: true, replayId: replayId })
   );
 };
 
@@ -51,15 +54,19 @@ const Guy = {
 };
 
 // eslint-disable-next-line no-restricted-globals
-window.replayLoaded = (payload) =>
+window.replayLoaded = async (payload) => {
+  await sleep(200);
   Guy.onReplayLoadedListeners.forEach((listener) =>
     listener.onReplayLoaded(payload)
   );
+};
 
 // eslint-disable-next-line no-restricted-globals
-window.replayUpdated = (payload) =>
+window.replayUpdated = async (payload) => {
+  await sleep(500);
   Guy.onReplayUpdatedListeners.forEach((listener) =>
     listener.onReplayUpdated(payload)
   );
+};
 
 export default Guy;
