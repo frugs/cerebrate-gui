@@ -69,6 +69,7 @@ class App extends React.Component {
       selectedTags: [],
       formDisabled: true,
       failedToLoadReplay: false,
+      failedToTagReplay: false,
       submittingReplay: false,
       notes: "",
 
@@ -151,7 +152,7 @@ class App extends React.Component {
     this.setState({ submittingReplay: false });
 
     if (this.state.replayId === replayId) {
-      this.setState({ formDisabled: false });
+      this.setState({ failedToTagReplay: !success, formDisabled: false });
     }
   }
 

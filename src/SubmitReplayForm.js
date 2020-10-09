@@ -18,8 +18,15 @@ import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
 
 function SubmitReplayForm(props) {
-  let { replayId, notes, submittingReplay, setNotes, submitTaggedReplay, ...other } = props;
-  const { formDisabled, failedToLoadReplay } = other;
+  let {
+    replayId,
+    notes,
+    submittingReplay,
+    setNotes,
+    submitTaggedReplay,
+    ...other
+  } = props;
+  const { formDisabled, failedToTagReplay, failedToLoadReplay } = other;
   return (
     <Card
       interactive={true}
@@ -71,16 +78,25 @@ function SubmitReplayForm(props) {
           onChange={(event) => setNotes(event.target.value)}
         />
       </FormGroup>
-      <Button
-        fill={true}
-        loading={submittingReplay}
-        intent={Intent.SUCCESS}
-        disabled={formDisabled}
-        onClick={submitTaggedReplay}
-        icon={IconNames.TAG}
+      <FormGroup
+        intent={failedToTagReplay ? Intent.DANGER : null}
+        helperText={
+          failedToTagReplay
+            ? "Failed to save tags, please select another replay or try again."
+            : null
+        }
       >
-        Save tags
-      </Button>
+        <Button
+          fill={true}
+          loading={submittingReplay}
+          intent={Intent.SUCCESS}
+          disabled={formDisabled}
+          onClick={submitTaggedReplay}
+          icon={IconNames.TAG}
+        >
+          Save tags
+        </Button>
+      </FormGroup>
     </Card>
   );
 }
