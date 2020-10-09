@@ -30,7 +30,12 @@ class SelectTagsInput extends React.Component {
       <MultiSelect
         createNewItemRenderer={(query, active, handleClick) => {
           return (
-            <MenuItem active={active} onClick={handleClick} text={query} />
+            <MenuItem
+              active={active}
+              onClick={handleClick}
+              text={query}
+              key={query}
+            />
           );
         }}
         itemRenderer={(item, { modifiers, handleClick }) => {
@@ -43,6 +48,7 @@ class SelectTagsInput extends React.Component {
               active={modifiers.active}
               onClick={handleClick}
               text={this.removePrefix(item)}
+              key={item}
             />
           );
         }}
