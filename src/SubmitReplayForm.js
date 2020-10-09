@@ -11,11 +11,15 @@ import {
   TextArea,
 } from "@blueprintjs/core";
 
+import { IconNames } from "@blueprintjs/icons";
+
 import "./SubmitReplayForm.css";
 import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
 
-function SubmitReplayForm({ replayId, setNotes, submitTaggedReplay, ...other }) {
+function SubmitReplayForm(props) {
+  let { replayId, notes, submittingReplay, setNotes, submitTaggedReplay, ...other } = props;
+  const { formDisabled, failedToLoadReplay } = other;
   return (
     <Card
       interactive={true}
@@ -27,8 +31,16 @@ function SubmitReplayForm({ replayId, setNotes, submitTaggedReplay, ...other }) 
       <FormGroup label="Replay ID">
         <InputGroup disabled={true} fill={true} value={replayId} />
       </FormGroup>
-      <FormGroup label="Replay path">
-        <ReplaySelector {...other} />
+      <FormGroup
+        label="Replay file"
+        intent={failedToLoadReplay ? Intent.DANGER : null}
+        helperText={
+          failedToLoadReplay
+            ? "Failed to load replay, please select another or try again."
+            : null
+        }
+      >
+        <ReplaySelector fill={true} {...other} />
       </FormGroup>
       <FormGroup label="Player tags">
         <SelectTagsInput
@@ -54,10 +66,19 @@ function SubmitReplayForm({ replayId, setNotes, submitTaggedReplay, ...other }) 
       <FormGroup label="Notes">
         <TextArea
           fill={true}
+          disabled={formDisabled}
+          value={notes}
           onChange={(event) => setNotes(event.target.value)}
         />
       </FormGroup>
-      <Button fill={true} intent={Intent.SUCCESS} onClick={submitTaggedReplay}>
+      <Button
+        fill={true}
+        loading={submittingReplay}
+        intent={Intent.SUCCESS}
+        disabled={formDisabled}
+        onClick={submitTaggedReplay}
+        icon={IconNames.TAG}
+      >
         Save tags
       </Button>
     </Card>

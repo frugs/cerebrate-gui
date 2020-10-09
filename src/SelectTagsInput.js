@@ -18,7 +18,13 @@ class SelectTagsInput extends React.Component {
   }
 
   render() {
-    const { tagIntent, tags, selectedTags, setSelectedTags } = this.props;
+    const {
+      tagIntent,
+      tags,
+      selectedTags,
+      formDisabled,
+      setSelectedTags,
+    } = this.props;
 
     return (
       <MultiSelect
@@ -60,6 +66,7 @@ class SelectTagsInput extends React.Component {
         resetOnSelect={true}
         tagRenderer={(item) => this.removePrefix(item)}
         tagInputProps={{
+          disabled: formDisabled,
           onRemove: (valueAsString, index, value) => {
             selectedTags.splice(
               selectedTags.indexOf(this.tagPrefix + valueAsString),

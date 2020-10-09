@@ -64,11 +64,18 @@ class App extends React.Component {
 
     this.state = {
       replayId: "",
+      replayFileName: "",
       replayData: "",
       selectedTags: [],
+      formDisabled: true,
+      failedToLoadReplay: false,
+      submittingReplay: false,
       notes: "",
 
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
+
+      setReplayFileName: (replayFileName) =>
+        this.setState({ replayFileName: replayFileName }),
 
       setReplayData: (replayData) => this.setState({ replayData: replayData }),
 
@@ -77,14 +84,75 @@ class App extends React.Component {
 
       setNotes: (notes) => this.setState({ notes: notes }),
 
-      submitTaggedReplay: () =>
+      resetAndDisableForm: () =>
+        this.setState({
+          failedToLoadReplay: false,
+          replayId: "",
+          selectedTags: [],
+          notes: "",
+          formDisabled: true,
+        }),
+
+      submitTaggedReplay: () => {
+        this.setState({
+          formDisabled: true,
+          submittingReplay: true,
+        });
         Guy.submitTaggedReplay({
           replayId: this.state.replayId,
           replayData: this.state.replayData,
           selectedTags: this.state.selectedTags,
           notes: this.state.notes,
-        }),
+        });
+      },
     };
+  }
+
+  componentDidMount() {
+    Guy.onReplayLoadedListeners.push(this);
+    Guy.onReplayUpdatedListeners.push(this);
+  }
+
+  componentWillUnmount() {
+    Guy.onReplayLoadedListeners.splice(
+      Guy.onReplayLoadedListeners.indexOf(this),
+      1
+    );
+    Guy.onReplayUpdatedListeners.splice(
+      Guy.onReplayUpdatedListeners.indexOf(this),
+      1
+    );
+  }
+
+  onReplayLoaded({ replayId, replayFileName, selectedTags, notes, force }) {
+    if (!force && this.state.replayId !== replayId) {
+      this.setState({
+        formDisabled: true,
+        submittingReplay: false,
+        failedToLoadReplay: true,
+        replayId: "",
+        selectedTags: [],
+        notes: "",
+      });
+      return;
+    }
+
+    this.setState({
+      formDisabled: false,
+      submittingReplay: false,
+      failedToLoadReplay: false,
+      replayFileName: replayFileName || this.state.replayFileName,
+      selectedTags: selectedTags,
+      notes: notes,
+    });
+  }
+
+  onReplayUpdated({ success, replayId }) {
+    this.setState({ submittingReplay: false });
+
+    if (this.state.replayId === replayId) {
+      this.setState({ formDisabled: false });
+    }
   }
 
   render() {
