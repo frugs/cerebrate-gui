@@ -2,10 +2,7 @@ import React from "react";
 
 import {
   Button,
-  Card,
-  Elevation,
   FormGroup,
-  H2,
   InputGroup,
   Intent,
   TextArea,
@@ -16,6 +13,8 @@ import { IconNames } from "@blueprintjs/icons";
 import "./SubmitReplayForm.css";
 import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
+import { SelectPlayerAndOpponentInput } from "./SelectPlayerAndOpponentInput";
+import { ReplayDateFormGroup } from "./ReplayDateFormGroup";
 
 function SubmitReplayForm(props) {
   let {
@@ -26,14 +25,15 @@ function SubmitReplayForm(props) {
     submitTaggedReplay,
     ...other
   } = props;
-  const { formDisabled, failedToTagReplay, failedToLoadReplay } = other;
+  const {
+    formDisabled,
+    playerTeam,
+    opponentTeam,
+    failedToTagReplay,
+    failedToLoadReplay,
+  } = other;
   return (
-    <Card
-      interactive={true}
-      elevation={Elevation.TWO}
-      className={"SubmitReplayForm-card"}
-    >
-      <H2>Save replay tags</H2>
+    <div>
       <br />
       <FormGroup label="Replay ID">
         <InputGroup disabled={true} fill={true} value={replayId} />
@@ -49,9 +49,12 @@ function SubmitReplayForm(props) {
       >
         <ReplaySelector fill={true} {...other} />
       </FormGroup>
+      <ReplayDateFormGroup {...other} />
+      <SelectPlayerAndOpponentInput {...other} />
       <FormGroup label="Player tags">
         <SelectTagsInput
           {...other}
+          disabled={formDisabled || playerTeam === null}
           tagPrefix={"player:"}
           tagIntent={Intent.SUCCESS}
         />
@@ -59,6 +62,7 @@ function SubmitReplayForm(props) {
       <FormGroup label="Opponent tags">
         <SelectTagsInput
           {...other}
+          disabled={formDisabled || opponentTeam === null}
           tagPrefix={"opponent:"}
           tagIntent={Intent.DANGER}
         />
@@ -90,14 +94,16 @@ function SubmitReplayForm(props) {
           fill={true}
           loading={submittingReplay}
           intent={Intent.SUCCESS}
-          disabled={formDisabled}
+          disabled={
+            formDisabled || playerTeam === null || opponentTeam === null
+          }
           onClick={submitTaggedReplay}
           icon={IconNames.TAG}
         >
           Save tags
         </Button>
       </FormGroup>
-    </Card>
+    </div>
   );
 }
 

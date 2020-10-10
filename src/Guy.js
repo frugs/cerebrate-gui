@@ -17,6 +17,8 @@ const selectReplayDebugFunc = async (...args) => {
   Guy.onReplayLoadedListeners.forEach((listener) =>
     listener.onReplayLoaded({
       replayId: replayId,
+      replayTimestamp: 1575909015,
+      teams: ["BobTheZealot", "Jim Raynor"],
       replayFileName: null,
       selectedTags: ["game:fake_tag"],
       notes: "Some fake notes",
@@ -37,7 +39,10 @@ const submitTaggedReplayDebugFunc = async (...args) => {
   await sleep(500);
 
   Guy.onReplayUpdatedListeners.forEach((listener) =>
-      listener.onReplayUpdated({ success: true, replayId: replayId })
+    listener.onReplayUpdated({
+      success: true,
+      replayId: replayId,
+    })
   );
 };
 

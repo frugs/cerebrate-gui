@@ -2,6 +2,8 @@ import React from "react";
 import "./App.scss";
 import SubmitReplayForm from "./SubmitReplayForm";
 import Guy from "./Guy";
+import { CerebrateNavbar } from "./CerebrateNavbar";
+import {Card, Elevation} from "@blueprintjs/core";
 
 const EXAMPLE_TAGS = [
   "player:terran",
@@ -65,7 +67,11 @@ class App extends React.Component {
     this.state = {
       replayId: "",
       replayFileName: "",
+      replayTimestamp: null,
       replayData: "",
+      teams: [],
+      playerTeam: null,
+      opponentTeam: null,
       selectedTags: [],
       formDisabled: true,
       failedToLoadReplay: false,
@@ -80,6 +86,10 @@ class App extends React.Component {
 
       setReplayData: (replayData) => this.setState({ replayData: replayData }),
 
+      setPlayerTeam: (index) => this.setState({playerTeam: index}),
+
+      setOpponentTeam: (index) => this.setState({opponentTeam: index}),
+
       setSelectedTags: (selectedTags) =>
         this.setState({ selectedTags: selectedTags }),
 
@@ -89,6 +99,10 @@ class App extends React.Component {
         this.setState({
           failedToLoadReplay: false,
           replayId: "",
+          replayTimestamp: null,
+          teams: [],
+          playerTeam: null,
+          opponentTeam: null,
           selectedTags: [],
           notes: "",
           formDisabled: true,
@@ -103,6 +117,8 @@ class App extends React.Component {
           replayId: this.state.replayId,
           replayData: this.state.replayData,
           selectedTags: this.state.selectedTags,
+          playerTeam: this.state.playerTeam,
+          opponentTeam: this.state.opponentTeam,
           notes: this.state.notes,
         });
       },
@@ -125,13 +141,15 @@ class App extends React.Component {
     );
   }
 
-  onReplayLoaded({ replayId, replayFileName, selectedTags, notes, force }) {
+  onReplayLoaded({ replayId, replayFileName, replayTimestamp, teams, selectedTags, notes, force }) {
     if (!force && this.state.replayId !== replayId) {
       this.setState({
         formDisabled: true,
         submittingReplay: false,
         failedToLoadReplay: true,
         replayId: "",
+        teams: [],
+        replayTimestamp: null,
         selectedTags: [],
         notes: "",
       });
@@ -142,6 +160,8 @@ class App extends React.Component {
       formDisabled: false,
       submittingReplay: false,
       failedToLoadReplay: false,
+      replayTimestamp: replayTimestamp,
+      teams: teams,
       replayFileName: replayFileName || this.state.replayFileName,
       selectedTags: selectedTags,
       notes: notes,
@@ -159,7 +179,14 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />
+        <Card
+            interactive={true}
+            elevation={Elevation.TWO}
+            className={"SubmitReplayForm-card"}
+        >
+          <CerebrateNavbar />
+          <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />
+        </Card>
       </div>
     );
   }

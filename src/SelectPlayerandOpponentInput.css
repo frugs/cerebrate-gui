@@ -1,0 +1,11 @@
+.SelectPlayerAndOpponentInput-container {
+    display: flex;
+}
+
+.SelectPlayerAndOpponentInput-form-group {
+    width: 50%;
+}
+
+.SelectPlayerAndOpponentInput-form-group-player {
+    margin-right: 1em;
+}

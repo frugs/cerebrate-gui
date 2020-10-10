@@ -19,10 +19,10 @@ class SelectTagsInput extends React.Component {
 
   render() {
     const {
+      disabled,
       tagIntent,
       tags,
       selectedTags,
-      formDisabled,
       setSelectedTags,
     } = this.props;
 
@@ -72,7 +72,7 @@ class SelectTagsInput extends React.Component {
         resetOnSelect={true}
         tagRenderer={(item) => this.removePrefix(item)}
         tagInputProps={{
-          disabled: formDisabled,
+          disabled: disabled,
           onRemove: (valueAsString, index, value) => {
             selectedTags.splice(
               selectedTags.indexOf(this.tagPrefix + valueAsString),
