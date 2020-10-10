@@ -3,7 +3,7 @@ import "./App.scss";
 import SubmitReplayForm from "./SubmitReplayForm";
 import Guy from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
-import {Card, Elevation} from "@blueprintjs/core";
+import { Card, Elevation } from "@blueprintjs/core";
 
 const EXAMPLE_TAGS = [
   "player:terran",
@@ -86,9 +86,9 @@ class App extends React.Component {
 
       setReplayData: (replayData) => this.setState({ replayData: replayData }),
 
-      setPlayerTeam: (index) => this.setState({playerTeam: index}),
+      setPlayerTeam: (index) => this.setState({ playerTeam: index }),
 
-      setOpponentTeam: (index) => this.setState({opponentTeam: index}),
+      setOpponentTeam: (index) => this.setState({ opponentTeam: index }),
 
       setSelectedTags: (selectedTags) =>
         this.setState({ selectedTags: selectedTags }),
@@ -108,7 +108,9 @@ class App extends React.Component {
           formDisabled: true,
         }),
 
-      submitTaggedReplay: () => {
+      disableForm: () => this.setState({formDisabled: true}),
+
+      updateReplayInfo: () => {
         this.setState({
           formDisabled: true,
           submittingReplay: true,
@@ -141,7 +143,17 @@ class App extends React.Component {
     );
   }
 
-  onReplayLoaded({ replayId, replayFileName, replayTimestamp, teams, selectedTags, notes, force }) {
+  onReplayLoaded({
+    replayId,
+    replayFileName,
+    replayTimestamp,
+    teams,
+    playerTeam,
+    opponentTeam,
+    selectedTags,
+    notes,
+    force,
+  }) {
     if (!force && this.state.replayId !== replayId) {
       this.setState({
         formDisabled: true,
@@ -149,6 +161,8 @@ class App extends React.Component {
         failedToLoadReplay: true,
         replayId: "",
         teams: [],
+        playerTeam: null,
+        opponentTeam: null,
         replayTimestamp: null,
         selectedTags: [],
         notes: "",
@@ -162,6 +176,8 @@ class App extends React.Component {
       failedToLoadReplay: false,
       replayTimestamp: replayTimestamp,
       teams: teams,
+      playerTeam: playerTeam,
+      opponentTeam: opponentTeam,
       replayFileName: replayFileName || this.state.replayFileName,
       selectedTags: selectedTags,
       notes: notes,
@@ -180,9 +196,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <Card
-            interactive={true}
-            elevation={Elevation.TWO}
-            className={"SubmitReplayForm-card"}
+          interactive={true}
+          elevation={Elevation.TWO}
+          className={"SubmitReplayForm-card"}
         >
           <CerebrateNavbar />
           <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />

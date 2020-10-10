@@ -17,15 +17,15 @@ import { SelectPlayerAndOpponentInput } from "./SelectPlayerAndOpponentInput";
 import { ReplayDateFormGroup } from "./ReplayDateFormGroup";
 
 function SubmitReplayForm(props) {
-  let {
-    replayId,
+  const {
     notes,
     submittingReplay,
     setNotes,
-    submitTaggedReplay,
+    updateReplayInfo,
     ...other
   } = props;
   const {
+    replayId,
     formDisabled,
     playerTeam,
     opponentTeam,
@@ -70,6 +70,7 @@ function SubmitReplayForm(props) {
       <FormGroup label="Game tags">
         <SelectTagsInput
           {...other}
+          disabled={formDisabled}
           tagPrefix={"game:"}
           tagIntent={Intent.PRIMARY}
         />
@@ -97,7 +98,7 @@ function SubmitReplayForm(props) {
           disabled={
             formDisabled || playerTeam === null || opponentTeam === null
           }
-          onClick={submitTaggedReplay}
+          onClick={updateReplayInfo}
           icon={IconNames.TAG}
         >
           Save tags

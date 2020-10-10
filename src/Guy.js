@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+
 const debugFunc = (...args) => console.log(args);
 
 const sleep = async (ms) =>
@@ -19,6 +21,34 @@ const selectReplayDebugFunc = async (...args) => {
       replayId: replayId,
       replayTimestamp: 1575909015,
       teams: ["BobTheZealot", "Jim Raynor"],
+      playerTeam: null,
+      opponentTeam: null,
+      replayFileName: null,
+      selectedTags: ["game:fake_tag"],
+      notes: "Some fake notes",
+      force: false,
+    })
+  );
+};
+
+const selectPlayerOpponentDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  if (args.length < 1) {
+    return;
+  }
+
+  await sleep(200);
+
+  const { replayId, playerTeam, opponentTeam } = args[0];
+
+  Guy.onReplayLoadedListeners.forEach((listener) =>
+    listener.onReplayLoaded({
+      replayId: replayId,
+      replayTimestamp: 1575909015,
+      teams: ["BobTheZealot", "Jim Raynor"],
+      playerTeam: playerTeam,
+      opponentTeam: opponentTeam,
       replayFileName: null,
       selectedTags: ["game:fake_tag"],
       notes: "Some fake notes",
@@ -48,17 +78,20 @@ const updateReplayInfoDebugFunc = async (...args) => {
 
 const Guy = {
   selectReplay: (...args) =>
-    // eslint-disable-next-line no-restricted-globals
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
+
+  selectPlayerOpponent: (...args) =>
+    ((self && self.selectPlayerOpponent) || selectPlayerOpponentDebugFunc)(
+      ...args
+    ),
+
   updateReplayInfo: (...args) =>
-    // eslint-disable-next-line no-restricted-globals
     ((self && self.updateReplayInfo) || updateReplayInfoDebugFunc)(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],
 };
 
-// eslint-disable-next-line no-restricted-globals
 window.replayLoaded = async (payload) => {
   await sleep(200);
   Guy.onReplayLoadedListeners.forEach((listener) =>
