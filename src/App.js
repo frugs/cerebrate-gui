@@ -113,7 +113,7 @@ class App extends React.Component {
           formDisabled: true,
           submittingReplay: true,
         });
-        Guy.submitTaggedReplay({
+        Guy.updateReplayInfo({
           replayId: this.state.replayId,
           replayData: this.state.replayData,
           selectedTags: this.state.selectedTags,

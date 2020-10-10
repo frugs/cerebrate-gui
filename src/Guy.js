@@ -27,7 +27,7 @@ const selectReplayDebugFunc = async (...args) => {
   );
 };
 
-const submitTaggedReplayDebugFunc = async (...args) => {
+const updateReplayInfoDebugFunc = async (...args) => {
   debugFunc(args);
 
   if (args.length < 1) {
@@ -50,9 +50,9 @@ const Guy = {
   selectReplay: (...args) =>
     // eslint-disable-next-line no-restricted-globals
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
-  submitTaggedReplay: (...args) =>
+  updateReplayInfo: (...args) =>
     // eslint-disable-next-line no-restricted-globals
-    ((self && self.submitTaggedReplay) || submitTaggedReplayDebugFunc)(...args),
+    ((self && self.updateReplayInfo) || updateReplayInfoDebugFunc)(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],
