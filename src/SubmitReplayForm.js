@@ -10,7 +10,6 @@ import {
 
 import { IconNames } from "@blueprintjs/icons";
 
-import "./SubmitReplayForm.css";
 import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
 import { SelectPlayerAndOpponentInput } from "./SelectPlayerAndOpponentInput";

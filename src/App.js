@@ -198,7 +198,7 @@ class App extends React.Component {
         <Card
           interactive={true}
           elevation={Elevation.TWO}
-          className={"SubmitReplayForm-card"}
+          className={"App-card"}
         >
           <CerebrateNavbar />
           <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />

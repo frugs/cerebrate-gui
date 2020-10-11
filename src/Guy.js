@@ -93,7 +93,6 @@ const Guy = {
 };
 
 window.replayLoaded = async (payload) => {
-  await sleep(200);
   Guy.onReplayLoadedListeners.forEach((listener) =>
     listener.onReplayLoaded(payload)
   );
