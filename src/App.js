@@ -108,7 +108,7 @@ class App extends React.Component {
           formDisabled: true,
         }),
 
-      disableForm: () => this.setState({formDisabled: true}),
+      disableForm: () => this.setState({ formDisabled: true }),
 
       updateReplayInfo: () => {
         this.setState({
@@ -146,6 +146,7 @@ class App extends React.Component {
   onReplayLoaded({
     replayId,
     replayFileName,
+    replayData,
     replayTimestamp,
     teams,
     playerTeam,
@@ -171,6 +172,8 @@ class App extends React.Component {
     }
 
     this.setState({
+      replayId: replayId,
+      replayData: replayData || this.state.replayData,
       formDisabled: false,
       submittingReplay: false,
       failedToLoadReplay: false,
