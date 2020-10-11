@@ -31,6 +31,26 @@ const selectReplayDebugFunc = async (...args) => {
   );
 };
 
+const selectMostRecentReplayDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  await sleep(200);
+
+  Guy.onReplayLoadedListeners.forEach((listener) =>
+    listener.onReplayLoaded({
+      replayId: "SOME HASH VALUE",
+      replayTimestamp: Math.floor(Date.now() / 1000),
+      teams: ["Tassadar", "Artanis"],
+      playerTeam: null,
+      opponentTeam: null,
+      replayFileName: null,
+      selectedTags: ["game:fake_tag_2"],
+      notes: "This is the most recently played replay",
+      force: true,
+    })
+  );
+};
+
 const selectPlayerOpponentDebugFunc = async (...args) => {
   debugFunc(args);
 
@@ -79,6 +99,11 @@ const updateReplayInfoDebugFunc = async (...args) => {
 const Guy = {
   selectReplay: (...args) =>
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
+
+  selectMostRecentReplay: (...args) =>
+    ((self && self.selectMostRecentReplay) || selectMostRecentReplayDebugFunc)(
+      ...args
+    ),
 
   selectPlayerOpponent: (...args) =>
     ((self && self.selectPlayerOpponent) || selectPlayerOpponentDebugFunc)(
