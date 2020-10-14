@@ -204,6 +204,7 @@ class App extends React.Component {
           className={"App-card"}
         >
           <CerebrateNavbar />
+          <br className={"App-break"}/>
           <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />
         </Card>
       </div>

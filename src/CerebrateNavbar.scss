@@ -1,0 +1,28 @@
+@font-face {
+    font-family: "Astro Space";
+    src: url("./AstroSpace-0Wl3o.otf") format("opentype"), url("./AstroSpace-eZ2Bg.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.CerebrateNavbar-navbar {
+    box-shadow: 0 0 0 0;
+    padding-bottom: 3em;
+}
+
+.CerebrateNavbar-logo {
+    color: #0E5A8A;
+    background: #E1E8ED;
+    border-radius: 4px;
+    font-size: 3em;
+    line-height: 1.1em;
+    font-family: "Astro Space", sans-serif;
+    margin-top: 0.5em;
+    padding: 10px 10px 0;
+}
+
+.CerebrateNavbar-logo-subtitle {
+    font-family: "Tahoma", sans-serif;
+    margin: 0 5px;
+    font-size: 0.8em;
+}

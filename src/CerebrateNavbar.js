@@ -1,7 +1,7 @@
 import React from "react";
 import { Alignment, Navbar, Tab, Tabs } from "@blueprintjs/core";
 
-import "./CerebrateNavbar.css";
+import "./CerebrateNavbar.scss";
 
 export class CerebrateNavbar extends React.Component {
   constructor(props) {
@@ -17,7 +17,12 @@ export class CerebrateNavbar extends React.Component {
       <Navbar className={"CerebrateNavbar-navbar"}>
         <Navbar.Group>
           <Navbar.Heading className={"CerebrateNavbar-navbar-heading"}>
-            <em>Cerebrate - A StarCraft II Replay Manager</em>
+            <div>
+              <div className={"CerebrateNavbar-logo"}>Cerebrate</div>
+              <em className={"CerebrateNavbar-logo-subtitle"}>
+                A StarCraft II Replay Manager
+              </em>
+            </div>
           </Navbar.Heading>
         </Navbar.Group>
         <Navbar.Group align={Alignment.RIGHT}>
