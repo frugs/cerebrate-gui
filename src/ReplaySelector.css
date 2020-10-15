@@ -1,12 +1,12 @@
 .ReplaySelector-container {
-    display: flex;
+  display: flex;
 }
 
 .ReplaySelector-button {
-    justify-content: center;
-    text-align: center;
-    white-space: nowrap;
-    width: fit-content;
-    flex-shrink: 0;
-    margin-left: 5px;
+  justify-content: center;
+  text-align: center;
+  white-space: nowrap;
+  width: fit-content;
+  flex-shrink: 0;
+  margin-left: 5px;
 }
