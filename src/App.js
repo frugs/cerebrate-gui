@@ -6,61 +6,6 @@ import { CerebrateNavbar } from "./CerebrateNavbar";
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import { ReplayTagTree } from "./ReplayTagTree";
 
-const EXAMPLE_TAGS = [
-  "player:terran",
-  "player:protoss",
-  "player:zerg",
-  "player:macro",
-  "player:all_in",
-  "player:2_base_all_in",
-  "player:mech",
-  "player:bio",
-  "player:stargate",
-  "player:twilight",
-  "player:dt",
-  "player:mass_pheonix",
-  "player:mass_void_ray",
-  "player:air_toss",
-  "player:cannon_rush",
-  "player:proxy_barracks",
-  "player:proxy_hatch",
-  "player:winner",
-  "player:loser",
-
-  "opponent:terran",
-  "opponent:protoss",
-  "opponent:zerg",
-  "opponent:macro",
-  "opponent:all_in",
-  "opponent:2_base_all_in",
-  "opponent:mech",
-  "opponent:bio",
-  "opponent:stargate",
-  "opponent:twilight",
-  "opponent:dt",
-  "opponent:mass_pheonix",
-  "opponent:mass_void_ray",
-  "opponent:air_toss",
-  "opponent:cannon_rush",
-  "opponent:proxy_barracks",
-  "opponent:proxy_hatch",
-  "opponent:winner",
-  "opponent:loser",
-
-  "game:zvp",
-  "game:zvt",
-  "game:zvz",
-  "game:tvz",
-  "game:tvp",
-  "game:tvt",
-  "game:pvt",
-  "game:pvz",
-  "game:pvp",
-  "game:short",
-  "game:long",
-  "game:basetrade",
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -80,6 +25,7 @@ class App extends React.Component {
       failedToTagReplay: false,
       submittingReplay: false,
       navbarTabId: "search",
+      allTags: [],
 
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
 
@@ -132,6 +78,11 @@ class App extends React.Component {
   componentDidMount() {
     Guy.onReplayLoadedListeners.push(this);
     Guy.onReplayUpdatedListeners.push(this);
+
+    (async () => {
+      const tagFrequencyTable = await Guy.fetchTagFrequencyTable({});
+      this.setState({ allTags: tagFrequencyTable.map((entry) => entry.tag) });
+    })();
   }
 
   componentWillUnmount() {
@@ -217,7 +168,9 @@ class App extends React.Component {
             <Tab
               id="form"
               title="Replay Details"
-              panel={<SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />}
+              panel={
+                <SubmitReplayForm tags={this.state.allTags} {...this.state} />
+              }
             />
             <Tab
               id="search"

@@ -9,9 +9,12 @@ import {
   Text,
 } from "@blueprintjs/core";
 
+import Guy from "./Guy";
+import TagUtils from "./TagUtils";
+
 import "./ReplayTagTree.scss";
 
-const CONTENTS = [
+const EXAMPLE_CONTENTS = [
   {
     id: 0,
     icon: (
@@ -96,10 +99,57 @@ const CONTENTS = [
 ];
 
 export class ReplayTagTree extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      contents: [],
+    };
+  }
+
+  componentDidMount() {
+    (async () => {
+      this.setState({
+        contents: await this.generateContents(),
+      });
+    })();
+  }
+
+  async generateContents() {
+    const tagFrequencyTable = await Guy.fetchTagFrequencyTable({});
+
+    return tagFrequencyTable.map((tagInfo, index) => ({
+      id: index,
+      icon: (
+        <Icon
+          icon="tag"
+          intent={TagUtils.getTagIntent(tagInfo.tag)}
+          className={Classes.TREE_NODE_ICON}
+        />
+      ),
+      label: (
+        <div>
+          <span
+            className={
+              "ReplayTagTree-tree-node-label-" +
+              TagUtils.extractPrefix(tagInfo.tag) +
+              "-tag"
+            }
+          >
+            {TagUtils.removePrefix(tagInfo.tag)}
+          </span>
+          <span className={"ReplayTagTree-tree-node-label-tag-freq"}>
+            <em>{"Replay(s): " + tagInfo.frequency} </em>
+          </span>
+        </div>
+      ),
+    }));
+  }
+
   render() {
     return (
       <div>
-        <Tree contents={CONTENTS} />
+        <Tree contents={this.state.contents} />
       </div>
     );
   }

@@ -1,7 +1,21 @@
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
-.ReplayTagTree-tree-node {}
+.ReplayTagTree-tree-node {
+}
 
 .ReplayTagTree-tree-node-label-player-tag {
   color: $pt-intent-success;
+}
+
+.ReplayTagTree-tree-node-label-opponent-tag {
+  color: $pt-intent-danger;
+}
+
+.ReplayTagTree-tree-node-label-game-tag {
+  color: $pt-intent-primary;
+}
+
+.ReplayTagTree-tree-node-label-tag-freq {
+  padding: 0 1em;
+  font-size: 0.85em;
 }

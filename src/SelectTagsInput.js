@@ -2,19 +2,13 @@ import React from "react";
 import { MenuItem } from "@blueprintjs/core";
 import { MultiSelect } from "@blueprintjs/select";
 
+import TagUtils from "./TagUtils";
+
 class SelectTagsInput extends React.Component {
   constructor(props) {
     super(props);
     const { tagPrefix } = props;
     this.tagPrefix = tagPrefix;
-  }
-
-  removePrefix(tag) {
-    if (tag.indexOf(this.tagPrefix) !== 0) {
-      return tag;
-    }
-
-    return tag.slice(this.tagPrefix.length);
   }
 
   render() {
@@ -47,7 +41,7 @@ class SelectTagsInput extends React.Component {
             <MenuItem
               active={modifiers.active}
               onClick={handleClick}
-              text={this.removePrefix(item)}
+              text={TagUtils.removePrefix(item)}
               key={item}
             />
           );
@@ -70,7 +64,7 @@ class SelectTagsInput extends React.Component {
           }
         }}
         resetOnSelect={true}
-        tagRenderer={(item) => this.removePrefix(item)}
+        tagRenderer={(item) => TagUtils.removePrefix(item)}
         tagInputProps={{
           disabled: disabled,
           onRemove: (valueAsString, index, value) => {
