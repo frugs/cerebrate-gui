@@ -3,7 +3,8 @@ import "./App.scss";
 import SubmitReplayForm from "./SubmitReplayForm";
 import Guy from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
-import { Card, Elevation, Navbar, Tab, Tabs } from "@blueprintjs/core";
+import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
+import { ReplayTagTree } from "./ReplayTagTree";
 
 const EXAMPLE_TAGS = [
   "player:terran",
@@ -73,11 +74,12 @@ class App extends React.Component {
       playerTeam: null,
       opponentTeam: null,
       selectedTags: [],
+      notes: "",
       formDisabled: true,
       failedToLoadReplay: false,
       failedToTagReplay: false,
       submittingReplay: false,
-      notes: "",
+      navbarTabId: "search",
 
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
 
@@ -217,7 +219,11 @@ class App extends React.Component {
               title="Replay Details"
               panel={<SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />}
             />
-            <Tab id="search" title="Find Replays" />
+            <Tab
+              id="search"
+              title="Find Replays"
+              panel={<ReplayTagTree {...this.state} />}
+            />
           </Tabs>
         </Card>
       </div>
