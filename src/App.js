@@ -3,7 +3,7 @@ import "./App.scss";
 import SubmitReplayForm from "./SubmitReplayForm";
 import Guy from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
-import { Card, Elevation } from "@blueprintjs/core";
+import { Card, Elevation, Navbar, Tab, Tabs } from "@blueprintjs/core";
 
 const EXAMPLE_TAGS = [
   "player:terran",
@@ -204,8 +204,21 @@ class App extends React.Component {
           className={"App-card"}
         >
           <CerebrateNavbar />
-          <br className={"App-break"}/>
-          <SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />
+          <br className={"App-break"} />
+          <Tabs
+            animate={true}
+            id="navbar"
+            large={true}
+            selectedTabId={this.state.navbarTabId}
+            onChange={(newTabId) => this.setState({ navbarTabId: newTabId })}
+          >
+            <Tab
+              id="form"
+              title="Replay Details"
+              panel={<SubmitReplayForm tags={EXAMPLE_TAGS} {...this.state} />}
+            />
+            <Tab id="search" title="Find Replays" />
+          </Tabs>
         </Card>
       </div>
     );

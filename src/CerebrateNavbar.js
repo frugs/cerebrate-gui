@@ -25,18 +25,6 @@ export class CerebrateNavbar extends React.Component {
             </div>
           </Navbar.Heading>
         </Navbar.Group>
-        <Navbar.Group align={Alignment.RIGHT}>
-          <Tabs
-            animate={true}
-            id="navbar"
-            large={true}
-            selectedTabId={this.state.navbarTabId}
-            onChange={(newTabId) => this.setState({ navbarTabId: newTabId })}
-          >
-            <Tab id="form" title="Replay Details" />
-            <Tab id="search" title="Find Replay" />
-          </Tabs>
-        </Navbar.Group>
       </Navbar>
     );
   }
