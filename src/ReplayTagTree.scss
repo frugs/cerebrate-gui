@@ -15,7 +15,10 @@
   color: $pt-intent-primary;
 }
 
-.ReplayTagTree-tree-node-label-tag-freq {
-  padding: 0 1em;
-  font-size: 0.85em;
+.ReplayTagTree-tree-node-label-tag-prefix {
+  text-transform: capitalize;
+}
+
+.ReplayTagTree-tree-node-label-tag-name {
+  text-transform: uppercase;
 }

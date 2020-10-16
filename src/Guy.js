@@ -154,9 +154,13 @@ const updateReplayInfoDebugFunc = async (...args) => {
 const fetchTagFrequencyTableDebugFunc = async (...args) => {
   debugFunc(args);
 
+  if (args.length < 1) {
+    return null;
+  }
+
   const filterTags = args[0];
 
-  return EXAMPLE_TAGS.map((tag) => ({
+  return EXAMPLE_TAGS.filter((tag) => !filterTags.includes(tag)).map((tag) => ({
     tag: tag,
     frequency: 1,
   }));
