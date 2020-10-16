@@ -157,7 +157,9 @@ class App extends React.Component {
           className={"App-card"}
         >
           <CerebrateNavbar />
-          <br className={"App-break"} />
+          <div className={"App-break"}>
+            <br />
+          </div>
           <Tabs
             animate={true}
             id="navbar"
