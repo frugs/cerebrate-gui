@@ -24,7 +24,7 @@ class App extends React.Component {
       failedToLoadReplay: false,
       failedToTagReplay: false,
       submittingReplay: false,
-      navbarTabId: "search",
+      navbarTabId: "form",
       allTags: [],
 
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
@@ -164,6 +164,7 @@ class App extends React.Component {
             large={true}
             selectedTabId={this.state.navbarTabId}
             onChange={(newTabId) => this.setState({ navbarTabId: newTabId })}
+            renderActiveTabPanelOnly={true}
           >
             <Tab
               id="form"

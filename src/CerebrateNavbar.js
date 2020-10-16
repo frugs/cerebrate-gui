@@ -1,5 +1,5 @@
 import React from "react";
-import { Alignment, Navbar, Tab, Tabs } from "@blueprintjs/core";
+import { Navbar } from "@blueprintjs/core";
 
 import "./CerebrateNavbar.scss";
 
