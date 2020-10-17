@@ -22,3 +22,17 @@
 .ReplayTagTree-tree-node-label-tag-name {
   text-transform: uppercase;
 }
+
+.ReplayTagTree-tree-node-label-replay {
+  display: inline-block;
+  flex-shrink: 0;
+  min-width: 8em;
+}
+
+.ReplayTagTree-tree-node-secondary-label {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 250px;
+}

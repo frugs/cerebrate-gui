@@ -33,10 +33,14 @@ export class ReplayTagTree extends React.Component {
       icon: (
         <Icon icon={IconNames.DOCUMENT} className={Classes.TREE_NODE_ICON} />
       ),
-      label: replaySummary.teams.join(" vs "),
+      label: (
+        <span className={"ReplayTagTree-tree-node-label-replay"}>
+          {replaySummary.replayId.substring(0, 8)}
+        </span>
+      ),
       secondaryLabel: (
-        <span className={"ReplayTagTree-tree-node-label-tag-freq"}>
-          <em>{replaySummary.replayId.substring(0, 8)} </em>
+        <span className={"ReplayTagTree-tree-node-secondary-label"}>
+          <em>{replaySummary.notes}</em>
         </span>
       ),
     }));
@@ -92,7 +96,7 @@ export class ReplayTagTree extends React.Component {
           </div>
         ),
         secondaryLabel: (
-          <span className={"ReplayTagTree-tree-node-label-tag-freq"}>
+          <span className={"ReplayTagTree-tree-node-secondary-label"}>
             <em>{"Replay(s): " + tagInfo.frequency} </em>
           </span>
         ),

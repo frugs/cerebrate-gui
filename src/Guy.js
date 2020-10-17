@@ -158,26 +158,34 @@ const fetchReplaySummariesDebugFunc = async (...args) => {
     {
       replayId: "f91abca15806c6038f9b4af454af40d6dd32",
       teams: ["BobTheZealot", "JimRaynor"],
+      notes: "A truly great game between the two titans of StarCraft",
     },
     {
       replayId: "540a1430ffe4d73f7c2c9d87cd2e4907b419",
       teams: ["Tassadar", "JimRaynor"],
+      notes:
+        "An unfortunate disagreement between friends led to this bar fight",
     },
     {
       replayId: "ab6ee43405077302a6a9fc3f1ceaf6aae6fc",
       teams: ["BobTheZealot", "Tassadar"],
+      notes: "An awful match",
     },
     {
       replayId: "48df54843f16afea0b8b92aa167de0e31912",
       teams: ["Tassadar", "BobTheZealot"],
+      notes: "Very BM",
     },
     {
       replayId: "391b6c73cae67daaa1306c5ef5cad275bd29",
       teams: ["Tassadar", "Artanis"],
+      notes:
+        "The quick brown fox jumps over the lazy dog. Abcdefghijklm nopqrs t uvwxy z",
     },
     {
       replayId: "03afb9220f1eee91ed3cdcf862446bfb1002",
       teams: ["Artanis", "BobTheZealot"],
+      notes: "",
     },
   ];
 };
