@@ -8,28 +8,58 @@ import DateUtils from "./DateUtils";
 
 import "./ReplayTagTree.scss";
 
+const NodeType = {
+  ROOT: "root",
+  REPLAY_FOLDER: "replay_folder",
+  REPLAY: "replay",
+  TAG: "tag",
+  LOADING: "loading",
+};
+
 export class ReplayTagTree extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      contents: [],
+      contents: [
+        {
+          id: 0,
+          nodeType: NodeType.ROOT,
+          filterTags: [],
+          icon: (
+            <Icon
+              icon={IconNames.LIST_COLUMNS}
+              className={Classes.TREE_NODE_ICON}
+            />
+          ),
+          label: (
+            <div className={"ReplayTagTree-tree-node-label-root"}>
+              <strong>Replay results</strong>
+            </div>
+          ),
+          childNodes: [
+            {
+              id: 0,
+              nodeType: NodeType.LOADING,
+              label: (
+                <span>
+                  <em>Loading...</em>
+                </span>
+              ),
+              disabled: true,
+            },
+          ],
+        },
+      ],
     };
   }
 
-  componentDidMount() {
-    (async () => {
-      this.setState({
-        contents: await this.generateTagNodes([]),
-      });
-    })();
-  }
-
-  async generateReplayNodes(filterTags) {
+  async generateReplayFolderChildNodes(filterTags) {
     const replaySummaries = await Guy.fetchReplaySummaries(filterTags);
 
     return replaySummaries.map((replaySummary, index) => ({
       id: index + 1,
+      nodeType: NodeType.REPLAY,
       replaySummary: replaySummary,
       icon: (
         <Icon icon={IconNames.DOCUMENT} className={Classes.TREE_NODE_ICON} />
@@ -59,18 +89,25 @@ export class ReplayTagTree extends React.Component {
     }));
   }
 
-  async generateTagNodes(filterTags) {
+  async generateTagChildNodes(filterTags) {
     const tagFrequencyTable = await Guy.fetchTagFrequencyTable(filterTags);
 
     return [
       {
         id: 0,
+        nodeType: NodeType.REPLAY_FOLDER,
         filterTags: filterTags,
-        icon: <Icon icon="folder-open" className={Classes.TREE_NODE_ICON} />,
+        icon: (
+          <Icon
+            icon={IconNames.FOLDER_OPEN}
+            className={Classes.TREE_NODE_ICON}
+          />
+        ),
         label: "Replays",
         childNodes: [
           {
             id: 0,
+            nodeType: NodeType.LOADING,
             label: (
               <span>
                 <em>Loading...</em>
@@ -83,10 +120,11 @@ export class ReplayTagTree extends React.Component {
     ].concat(
       tagFrequencyTable.map((tagInfo, index) => ({
         id: index + 1,
+        nodeType: NodeType.TAG,
         filterTags: filterTags.concat(tagInfo.tag),
         icon: (
           <Icon
-            icon="tag"
+            icon={IconNames.TAG}
             intent={TagUtils.getTagIntent(tagInfo.tag)}
             className={Classes.TREE_NODE_ICON}
           />
@@ -117,6 +155,7 @@ export class ReplayTagTree extends React.Component {
         childNodes: [
           {
             id: 0,
+            nodeType: NodeType.LOADING,
             label: (
               <span>
                 <em>Loading...</em>
@@ -138,18 +177,26 @@ export class ReplayTagTree extends React.Component {
     nodeData.isExpanded = true;
     this.setState(this.state);
 
-    if (nodeData.label === "Replays") {
-      (async () => {
-        nodeData.childNodes = await this.generateReplayNodes(
-          nodeData.filterTags
-        );
-        this.setState(this.state);
-      })();
-    } else {
-      (async () => {
-        nodeData.childNodes = await this.generateTagNodes(nodeData.filterTags);
-        this.setState(this.state);
-      })();
+    switch (nodeData.nodeType) {
+      case NodeType.REPLAY_FOLDER:
+        (async () => {
+          nodeData.childNodes = await this.generateReplayFolderChildNodes(
+            nodeData.filterTags
+          );
+          this.setState(this.state);
+        })();
+        break;
+      case NodeType.ROOT:
+      case NodeType.TAG:
+        (async () => {
+          nodeData.childNodes = await this.generateTagChildNodes(
+            nodeData.filterTags
+          );
+          this.setState(this.state);
+        })();
+        break;
+      default:
+        break;
     }
   };
 

@@ -166,7 +166,6 @@ class App extends React.Component {
             large={true}
             selectedTabId={this.state.navbarTabId}
             onChange={(newTabId) => this.setState({ navbarTabId: newTabId })}
-            renderActiveTabPanelOnly={true}
           >
             <Tab
               id="form"
