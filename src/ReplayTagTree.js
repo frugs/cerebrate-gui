@@ -1,5 +1,6 @@
 import React from "react";
 import { Classes, Icon, Tree } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
 
 import Guy from "./Guy";
 import TagUtils from "./TagUtils";
@@ -18,12 +19,30 @@ export class ReplayTagTree extends React.Component {
   componentDidMount() {
     (async () => {
       this.setState({
-        contents: await this.generateContents([]),
+        contents: await this.generateTagNodes([]),
       });
     })();
   }
 
-  async generateContents(filterTags) {
+  async generateReplayNodes(filterTags) {
+    const replaySummaries = await Guy.fetchReplaySummaries(filterTags);
+
+    return replaySummaries.map((replaySummary, index) => ({
+      id: index + 1,
+      replaySummary: replaySummary,
+      icon: (
+        <Icon icon={IconNames.DOCUMENT} className={Classes.TREE_NODE_ICON} />
+      ),
+      label: replaySummary.teams.join(" vs "),
+      secondaryLabel: (
+        <span className={"ReplayTagTree-tree-node-label-tag-freq"}>
+          <em>{replaySummary.replayId.substring(0, 8)} </em>
+        </span>
+      ),
+    }));
+  }
+
+  async generateTagNodes(filterTags) {
     const tagFrequencyTable = await Guy.fetchTagFrequencyTable(filterTags);
 
     return [
@@ -102,10 +121,15 @@ export class ReplayTagTree extends React.Component {
     this.setState(this.state);
 
     if (nodeData.label === "Replays") {
-      // TODO: implement this
+      (async () => {
+        nodeData.childNodes = await this.generateReplayNodes(
+          nodeData.filterTags
+        );
+        this.setState(this.state);
+      })();
     } else {
       (async () => {
-        nodeData.childNodes = await this.generateContents(nodeData.filterTags);
+        nodeData.childNodes = await this.generateTagNodes(nodeData.filterTags);
         this.setState(this.state);
       })();
     }

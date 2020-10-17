@@ -121,7 +121,7 @@ const selectPlayerOpponentDebugFunc = async (...args) => {
     listener.onReplayLoaded({
       replayId: replayId,
       replayTimestamp: 1575909015,
-      teams: ["BobTheZealot", "Jim Raynor"],
+      teams: ["BobTheZealot", "JimRaynor"],
       playerTeam: playerTeam,
       opponentTeam: opponentTeam,
       replayFileName: null,
@@ -149,6 +149,37 @@ const updateReplayInfoDebugFunc = async (...args) => {
       replayId: replayId,
     })
   );
+};
+
+const fetchReplaySummariesDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  return [
+    {
+      replayId: "f91abca15806c6038f9b4af454af40d6dd32",
+      teams: ["BobTheZealot", "JimRaynor"],
+    },
+    {
+      replayId: "540a1430ffe4d73f7c2c9d87cd2e4907b419",
+      teams: ["Tassadar", "JimRaynor"],
+    },
+    {
+      replayId: "ab6ee43405077302a6a9fc3f1ceaf6aae6fc",
+      teams: ["BobTheZealot", "Tassadar"],
+    },
+    {
+      replayId: "48df54843f16afea0b8b92aa167de0e31912",
+      teams: ["Tassadar", "BobTheZealot"],
+    },
+    {
+      replayId: "391b6c73cae67daaa1306c5ef5cad275bd29",
+      teams: ["Tassadar", "Artanis"],
+    },
+    {
+      replayId: "03afb9220f1eee91ed3cdcf862446bfb1002",
+      teams: ["Artanis", "BobTheZealot"],
+    },
+  ];
 };
 
 const fetchTagFrequencyTableDebugFunc = async (...args) => {
@@ -182,6 +213,11 @@ const Guy = {
 
   updateReplayInfo: (...args) =>
     ((self && self.updateReplayInfo) || updateReplayInfoDebugFunc)(...args),
+
+  fetchReplaySummaries: (...args) =>
+    ((self && self.fetchReplaySummaries) || fetchReplaySummariesDebugFunc)(
+      ...args
+    ),
 
   fetchTagFrequencyTable: (...args) =>
     ((self && self.fetchTagFrequencyTable) || fetchTagFrequencyTableDebugFunc)(
