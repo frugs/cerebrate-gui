@@ -52,6 +52,7 @@ export class ReplayTagTree extends React.Component {
     return [
       {
         id: 0,
+        filterTags: filterTags,
         icon: <Icon icon="folder-open" className={Classes.TREE_NODE_ICON} />,
         label: "Replays",
         childNodes: [
