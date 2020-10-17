@@ -1,10 +1,6 @@
 import React from "react";
 import { FormGroup, InputGroup } from "@blueprintjs/core";
-
-function formatDate(timestamp) {
-  let date = new Date(timestamp * 1000);
-  return date.toLocaleDateString() + " " + date.toLocaleTimeString();
-}
+import DateUtils from "./DateUtils";
 
 export function ReplayDateFormGroup({ replayTimestamp }) {
   return (
@@ -12,7 +8,7 @@ export function ReplayDateFormGroup({ replayTimestamp }) {
       <InputGroup
         disabled={true}
         fill={true}
-        value={replayTimestamp && formatDate(replayTimestamp)}
+        value={replayTimestamp && DateUtils.formatDate(replayTimestamp)}
       />
     </FormGroup>
   );

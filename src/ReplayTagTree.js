@@ -4,6 +4,7 @@ import { IconNames } from "@blueprintjs/icons";
 
 import Guy from "./Guy";
 import TagUtils from "./TagUtils";
+import DateUtils from "./DateUtils";
 
 import "./ReplayTagTree.scss";
 
@@ -33,15 +34,27 @@ export class ReplayTagTree extends React.Component {
       icon: (
         <Icon icon={IconNames.DOCUMENT} className={Classes.TREE_NODE_ICON} />
       ),
+      className: "ReplayTagTree-tree-node",
       label: (
-        <span className={"ReplayTagTree-tree-node-label-replay"}>
-          {replaySummary.replayId.substring(0, 8)}
-        </span>
+        <div className={"ReplayTagTree-tree-node-label-replay"}>
+          <div className={"ReplayTagTree-tree-node-label-replay-id"}>
+            {replaySummary.replayId.substring(0, 8)}
+          </div>
+          &nbsp;
+          <div className={"ReplayTagTree-tree-node-label-replay-teams"}>
+            {replaySummary.teams.join(" vs ")}
+          </div>
+          {replaySummary.notes ? (
+            <div className={"ReplayTagTree-tree-node-label-replay-notes"}>
+              <em>{replaySummary.notes}</em>
+            </div>
+          ) : null}
+        </div>
       ),
       secondaryLabel: (
-        <span className={"ReplayTagTree-tree-node-secondary-label"}>
-          <em>{replaySummary.notes}</em>
-        </span>
+        <div className={"ReplayTagTree-tree-node-secondary-label"}>
+          <em>{DateUtils.formatDate(replaySummary.replayTimestamp)}</em>
+        </div>
       ),
     }));
   }

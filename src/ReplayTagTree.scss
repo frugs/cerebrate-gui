@@ -1,6 +1,8 @@
 @import "~@blueprintjs/core/lib/scss/variables.scss";
 
 .ReplayTagTree-tree-node {
+  display: block;
+  padding: 5px 0;
 }
 
 .ReplayTagTree-tree-node-label-player-tag {
@@ -25,8 +27,35 @@
 
 .ReplayTagTree-tree-node-label-replay {
   display: inline-block;
-  flex-shrink: 0;
-  min-width: 8em;
+}
+
+.ReplayTagTree-tree-node-label-replay-id {
+  display: inline-block;
+  width: 5em;
+  font-family: monospace;
+}
+
+.ReplayTagTree-tree-node-label-replay-teams {
+  display: inline-block;
+  max-width: 16em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: bottom;
+}
+
+.ReplayTagTree-tree-node-label-replay-date {
+  display: inline-block;
+  text-overflow: ellipsis;
+}
+
+.ReplayTagTree-tree-node-label-replay-notes {
+  display: block;
+  max-width: 20em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.9em;
+  padding-bottom: 1em;
+  margin-bottom: -1em;
 }
 
 .ReplayTagTree-tree-node-secondary-label {
@@ -35,4 +64,5 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 250px;
+  font-size: 0.8em;
 }
