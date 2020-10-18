@@ -1,6 +1,6 @@
 import React from "react";
 import { FormGroup, InputGroup } from "@blueprintjs/core";
-import DateUtils from "./DateUtils";
+import { DateUtils } from "./DateUtils";
 
 class ReplayDateFormGroup extends React.Component {
   render() {

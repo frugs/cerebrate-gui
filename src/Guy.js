@@ -1,5 +1,7 @@
 /* eslint-disable no-restricted-globals */
 
+import { AsyncUtils } from "./AsyncUtils";
+
 const EXAMPLE_TAGS = [
   "player:terran",
   "player:protoss",
@@ -18,8 +20,8 @@ const EXAMPLE_TAGS = [
   "player:cannon_rush",
   "player:proxy_barracks",
   "player:proxy_hatch",
-  "player:winner",
-  "player:loser",
+  "player:win",
+  "player:loss",
 
   "opponent:terran",
   "opponent:protoss",
@@ -38,8 +40,8 @@ const EXAMPLE_TAGS = [
   "opponent:cannon_rush",
   "opponent:proxy_barracks",
   "opponent:proxy_hatch",
-  "opponent:winner",
-  "opponent:loser",
+  "opponent:win",
+  "opponent:loss",
 
   "game:zvp",
   "game:zvt",
@@ -57,9 +59,6 @@ const EXAMPLE_TAGS = [
 
 const debugFunc = (...args) => console.log(args);
 
-const sleep = async (ms) =>
-  await new Promise((resolve) => setTimeout(resolve, ms));
-
 const selectReplayDebugFunc = async (...args) => {
   debugFunc(args);
 
@@ -67,7 +66,7 @@ const selectReplayDebugFunc = async (...args) => {
     return;
   }
 
-  await sleep(200);
+  await AsyncUtils.sleep(200);
 
   const { replayId } = args[0];
 
@@ -89,7 +88,7 @@ const selectReplayDebugFunc = async (...args) => {
 const selectMostRecentReplayDebugFunc = async (...args) => {
   debugFunc(args);
 
-  await sleep(200);
+  await AsyncUtils.sleep(200);
 
   Guy.onReplayLoadedListeners.forEach((listener) =>
     listener.onReplayLoaded({
@@ -113,7 +112,7 @@ const selectPlayerOpponentDebugFunc = async (...args) => {
     return;
   }
 
-  await sleep(200);
+  await AsyncUtils.sleep(200);
 
   const { replayId, playerTeam, opponentTeam } = args[0];
 
@@ -141,7 +140,7 @@ const updateReplayInfoDebugFunc = async (...args) => {
 
   const { replayId } = args[0];
 
-  await sleep(500);
+  await AsyncUtils.sleep(500);
 
   Guy.onReplayUpdatedListeners.forEach((listener) =>
     listener.onReplayUpdated({
@@ -214,7 +213,7 @@ const findReplaysDebugFunc = async (...args) => {
   };
 };
 
-const Guy = {
+export const Guy = {
   selectReplay: (...args) =>
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
 
@@ -246,10 +245,8 @@ window.replayLoaded = async (payload) => {
 
 // eslint-disable-next-line no-restricted-globals
 window.replayUpdated = async (payload) => {
-  await sleep(500);
+  await AsyncUtils.sleep(500);
   Guy.onReplayUpdatedListeners.forEach((listener) =>
     listener.onReplayUpdated(payload)
   );
 };
-
-export default Guy;

@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.scss";
 import { SubmitReplayForm } from "./SubmitReplayForm";
-import Guy from "./Guy";
+import { Guy } from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import { FindReplays } from "./FindReplays";

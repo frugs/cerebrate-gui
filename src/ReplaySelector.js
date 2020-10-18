@@ -2,7 +2,7 @@ import React from "react";
 import { Button, FileInput } from "@blueprintjs/core";
 import CryptoJS from "crypto-js/crypto-js";
 import "crypto-js/lib-typedarrays";
-import Guy from "./Guy";
+import { Guy } from "./Guy";
 
 import "./ReplaySelector.css";
 

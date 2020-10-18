@@ -2,7 +2,7 @@ import React from "react";
 import { MenuItem } from "@blueprintjs/core";
 import { MultiSelect } from "@blueprintjs/select";
 
-import TagUtils from "./TagUtils";
+import { TagUtils } from "./TagUtils";
 
 function SelectTagsInput(props) {
   const {

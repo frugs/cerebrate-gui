@@ -6,7 +6,7 @@ const PREFIX_DELEMITER = ":";
 
 const TAG_INTENTS = [Intent.SUCCESS, Intent.DANGER, Intent.PRIMARY];
 
-const TagUtils = {
+export const TagUtils = {
   extractPrefix(tag) {
     for (const prefix of TAG_PREFIXES) {
       if (tag.indexOf(prefix) === 0) {
@@ -37,5 +37,3 @@ const TagUtils = {
     return null;
   },
 };
-
-export default TagUtils;

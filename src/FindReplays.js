@@ -62,7 +62,9 @@ export class FindReplays extends React.Component {
             fill={true}
             intent={Intent.PRIMARY}
             onClick={() => {
-              this.state.setSearchResults(<ReplayTagTree {...this.props} />);
+              this.state.setSearchResults(
+                <ReplayTagTree {...this.props} {...this.state} />
+              );
             }}
             icon={IconNames.SEARCH}
           >

@@ -3,7 +3,7 @@ import { FormGroup, HTMLSelect, Intent } from "@blueprintjs/core";
 
 import "./SelectPlayerandOpponentInput.css";
 
-import Guy from "./Guy";
+import { Guy } from "./Guy";
 
 class SelectPlayerAndOpponentInput extends React.Component {
   onPlayerSelected(event) {

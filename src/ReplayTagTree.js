@@ -2,9 +2,9 @@ import React from "react";
 import { Classes, Icon, Tree } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
-import Guy from "./Guy";
-import TagUtils from "./TagUtils";
-import DateUtils from "./DateUtils";
+import { Guy } from "./Guy";
+import { TagUtils } from "./TagUtils";
+import { DateUtils } from "./DateUtils";
 
 import "./ReplayTagTree.scss";
 
@@ -102,8 +102,11 @@ export class ReplayTagTree extends React.Component {
   };
 
   generateTagChildNodes = async (filterTags) => {
+    const { includeTags, excludeTags } = this.props;
+
     const { replays, tagFrequencyTable } = await Guy.findReplays({
-      includeTags: filterTags,
+      includeTags: includeTags.concat(filterTags),
+      excludeTags: excludeTags,
     });
 
     return [
