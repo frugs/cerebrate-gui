@@ -1,47 +1,22 @@
 /* eslint-disable no-restricted-globals */
 
 import { AsyncUtils } from "./AsyncUtils";
+import { concatExampleTags } from "./ExampleTags";
 
-const EXAMPLE_TAGS = [
+const DEBUG_TAGS = concatExampleTags([
+  "player:win",
+  "player:loss",
   "player:terran",
   "player:protoss",
   "player:zerg",
-  "player:macro",
-  "player:all_in",
-  "player:2_base_all_in",
-  "player:mech",
-  "player:bio",
-  "player:stargate",
-  "player:twilight",
-  "player:dt",
-  "player:mass_pheonix",
-  "player:mass_void_ray",
-  "player:air_toss",
-  "player:cannon_rush",
-  "player:proxy_barracks",
-  "player:proxy_hatch",
-  "player:win",
-  "player:loss",
+  "player:ai",
 
+  "opponent:win",
+  "opponent:loss",
   "opponent:terran",
   "opponent:protoss",
   "opponent:zerg",
-  "opponent:macro",
-  "opponent:all_in",
-  "opponent:2_base_all_in",
-  "opponent:mech",
-  "opponent:bio",
-  "opponent:stargate",
-  "opponent:twilight",
-  "opponent:dt",
-  "opponent:mass_pheonix",
-  "opponent:mass_void_ray",
-  "opponent:air_toss",
-  "opponent:cannon_rush",
-  "opponent:proxy_barracks",
-  "opponent:proxy_hatch",
-  "opponent:win",
-  "opponent:loss",
+  "opponent:ai",
 
   "game:zvp",
   "game:zvt",
@@ -54,8 +29,12 @@ const EXAMPLE_TAGS = [
   "game:pvp",
   "game:short",
   "game:long",
-  "game:basetrade",
-];
+  "game:1v1",
+  "game:2v2",
+  "game:3v3",
+  "game:4v4",
+  "game:ffa",
+]);
 
 const debugFunc = (...args) => console.log(args);
 
@@ -203,7 +182,7 @@ const findReplaysDebugFunc = async (...args) => {
       },
     ],
 
-    tagFrequencyTable: EXAMPLE_TAGS.filter(
+    tagFrequencyTable: DEBUG_TAGS.filter(
       (tag) => !includeTags.includes(tag) && !excludeTags.includes(tag)
     ).map((tag) => ({
       tag: tag,

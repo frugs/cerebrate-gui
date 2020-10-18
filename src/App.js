@@ -5,6 +5,7 @@ import { Guy } from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import { FindReplays } from "./FindReplays";
+import { concatExampleTags } from "./ExampleTags";
 
 class App extends React.Component {
   constructor(props) {
@@ -82,7 +83,9 @@ class App extends React.Component {
     (async () => {
       const { tagFrequencyTable } = await Guy.findReplays({});
       this.setState({
-        suggestTags: tagFrequencyTable.map((entry) => entry.tag),
+        suggestTags: concatExampleTags(
+          tagFrequencyTable.map((entry) => entry.tag)
+        ),
       });
     })();
   }

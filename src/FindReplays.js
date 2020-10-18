@@ -35,14 +35,14 @@ export class FindReplays extends React.Component {
         });
       },
 
-      includeTags: [],
+      includeTags: ["game:1v1"],
       setIncludeTags: (includeTags) => {
         this.setState({
           includeTags: includeTags,
         });
       },
 
-      excludeTags: [],
+      excludeTags: ["opponent:ai"],
       setExcludeTags: (excludeTags) => {
         this.setState({
           excludeTags: excludeTags,
