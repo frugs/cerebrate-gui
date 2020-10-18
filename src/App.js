@@ -80,7 +80,7 @@ class App extends React.Component {
     Guy.onReplayUpdatedListeners.push(this);
 
     (async () => {
-      const tagFrequencyTable = await Guy.fetchTagFrequencyTable([]);
+      const { tagFrequencyTable } = await Guy.findReplays({});
       this.setState({
         suggestTags: tagFrequencyTable.map((entry) => entry.tag),
       });

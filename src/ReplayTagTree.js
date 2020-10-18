@@ -68,13 +68,11 @@ export class ReplayTagTree extends React.Component {
     return this.state.contents[0];
   };
 
-  generateReplayFolderChildNodes = async (filterTags) => {
-    const replaySummaries = await Guy.fetchReplaySummaries(filterTags);
-
-    return replaySummaries.map((replaySummary, index) => ({
+  generateReplayFolderChildNodes = (replays) => {
+    return replays.map((replay, index) => ({
       id: index + 1,
       nodeType: NodeType.REPLAY,
-      replaySummary: replaySummary,
+      replay: replay,
       icon: (
         <Icon icon={IconNames.DOCUMENT} className={Classes.TREE_NODE_ICON} />
       ),
@@ -82,29 +80,31 @@ export class ReplayTagTree extends React.Component {
       label: (
         <div className={"ReplayTagTree-tree-node-label-replay"}>
           <div className={"ReplayTagTree-tree-node-label-replay-id"}>
-            {replaySummary.replayId.substring(0, 8)}
+            {replay.replayId.substring(0, 8)}
           </div>
           &nbsp;
           <div className={"ReplayTagTree-tree-node-label-replay-teams"}>
-            {replaySummary.teams.join(" vs ")}
+            {replay.teams.join(" vs ")}
           </div>
-          {replaySummary.notes ? (
+          {replay.notes ? (
             <div className={"ReplayTagTree-tree-node-label-replay-notes"}>
-              <em>{replaySummary.notes}</em>
+              <em>{replay.notes}</em>
             </div>
           ) : null}
         </div>
       ),
       secondaryLabel: (
         <div className={"ReplayTagTree-tree-node-secondary-label"}>
-          <em>{DateUtils.formatDate(replaySummary.replayTimestamp)}</em>
+          <em>{DateUtils.formatDate(replay.replayTimestamp)}</em>
         </div>
       ),
     }));
   };
 
   generateTagChildNodes = async (filterTags) => {
-    const tagFrequencyTable = await Guy.fetchTagFrequencyTable(filterTags);
+    const { replays, tagFrequencyTable } = await Guy.findReplays({
+      includeTags: filterTags,
+    });
 
     return [
       {
@@ -118,18 +118,7 @@ export class ReplayTagTree extends React.Component {
           />
         ),
         label: "Replays",
-        childNodes: [
-          {
-            id: 0,
-            nodeType: NodeType.LOADING,
-            label: (
-              <span>
-                <em>Loading...</em>
-              </span>
-            ),
-            disabled: true,
-          },
-        ],
+        childNodes: this.generateReplayFolderChildNodes(replays),
       },
     ].concat(
       tagFrequencyTable.map((tagInfo, index) => ({
@@ -184,13 +173,11 @@ export class ReplayTagTree extends React.Component {
 
   generateChildNodes = async (parentNode) => {
     switch (parentNode.nodeType) {
-      case NodeType.REPLAY_FOLDER:
-        return await this.generateReplayFolderChildNodes(parentNode.filterTags);
       case NodeType.ROOT:
       case NodeType.TAG:
         return await this.generateTagChildNodes(parentNode.filterTags);
       default:
-        return [];
+        return parentNode.childNodes;
     }
   };
 

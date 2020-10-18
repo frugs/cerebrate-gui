@@ -151,64 +151,67 @@ const updateReplayInfoDebugFunc = async (...args) => {
   );
 };
 
-const fetchReplaySummariesDebugFunc = async (...args) => {
-  debugFunc(args);
-
-  return [
-    {
-      replayId: "f91abca15806c6038f9b4af454af40d6dd32",
-      replayTimestamp: 1602931843,
-      teams: ["BobTheZealot", "JimRaynor"],
-      notes: "A truly great game between the two titans of StarCraft",
-    },
-    {
-      replayId: "540a1430ffe4d73f7c2c9d87cd2e4907b419",
-      replayTimestamp: 1585730727,
-      teams: ["Tassadar", "JimRaynor"],
-      notes:
-        "An unfortunate disagreement between friends led to this bar fight",
-    },
-    {
-      replayId: "ab6ee43405077302a6a9fc3f1ceaf6aae6fc",
-      replayTimestamp: 1322166082,
-      teams: ["BobTheZealot", "Tassadar"],
-      notes: "An awful match",
-    },
-    {
-      replayId: "48df54843f16afea0b8b92aa167de0e31912",
-      replayTimestamp: 1471426714,
-      teams: ["Tassadar", "BobTheZealot"],
-      notes: "Very BM",
-    },
-    {
-      replayId: "391b6c73cae67daaa1306c5ef5cad275bd29",
-      replayTimestamp: 1398404675,
-      teams: ["Tassadar", "Artanis"],
-      notes:
-        "The quick brown fox jumps over the lazy dog. Abcdefghijklm nopqrs t uvwxy z",
-    },
-    {
-      replayId: "03afb9220f1eee91ed3cdcf862446bfb1002",
-      replayTimestamp: 1435622178,
-      teams: ["Artanis", "BobTheZealot"],
-      notes: "",
-    },
-  ];
-};
-
-const fetchTagFrequencyTableDebugFunc = async (...args) => {
+const findReplaysDebugFunc = async (...args) => {
   debugFunc(args);
 
   if (args.length < 1) {
-    return null;
+    return;
   }
 
-  const filterTags = args[0];
+  let { includeTags } = args[0];
+  if (!includeTags) {
+    includeTags = [];
+  }
 
-  return EXAMPLE_TAGS.filter((tag) => !filterTags.includes(tag)).map((tag) => ({
-    tag: tag,
-    frequency: 1,
-  }));
+  return {
+    replays: [
+      {
+        replayId: "f91abca15806c6038f9b4af454af40d6dd32",
+        replayTimestamp: 1602931843,
+        teams: ["BobTheZealot", "JimRaynor"],
+        notes: "A truly great game between the two titans of StarCraft",
+      },
+      {
+        replayId: "540a1430ffe4d73f7c2c9d87cd2e4907b419",
+        replayTimestamp: 1585730727,
+        teams: ["Tassadar", "JimRaynor"],
+        notes:
+          "An unfortunate disagreement between friends led to this bar fight",
+      },
+      {
+        replayId: "ab6ee43405077302a6a9fc3f1ceaf6aae6fc",
+        replayTimestamp: 1322166082,
+        teams: ["BobTheZealot", "Tassadar"],
+        notes: "An awful match",
+      },
+      {
+        replayId: "48df54843f16afea0b8b92aa167de0e31912",
+        replayTimestamp: 1471426714,
+        teams: ["Tassadar", "BobTheZealot"],
+        notes: "Very BM",
+      },
+      {
+        replayId: "391b6c73cae67daaa1306c5ef5cad275bd29",
+        replayTimestamp: 1398404675,
+        teams: ["Tassadar", "Artanis"],
+        notes:
+          "The quick brown fox jumps over the lazy dog. Abcdefghijklm nopqrs t uvwxy z",
+      },
+      {
+        replayId: "03afb9220f1eee91ed3cdcf862446bfb1002",
+        replayTimestamp: 1435622178,
+        teams: ["Artanis", "BobTheZealot"],
+        notes: "",
+      },
+    ],
+
+    tagFrequencyTable: EXAMPLE_TAGS.filter(
+      (tag) => !includeTags.includes(tag)
+    ).map((tag) => ({
+      tag: tag,
+      frequency: 1,
+    })),
+  };
 };
 
 const Guy = {
@@ -228,15 +231,8 @@ const Guy = {
   updateReplayInfo: (...args) =>
     ((self && self.updateReplayInfo) || updateReplayInfoDebugFunc)(...args),
 
-  fetchReplaySummaries: (...args) =>
-    ((self && self.fetchReplaySummaries) || fetchReplaySummariesDebugFunc)(
-      ...args
-    ),
-
-  fetchTagFrequencyTable: (...args) =>
-    ((self && self.fetchTagFrequencyTable) || fetchTagFrequencyTableDebugFunc)(
-      ...args
-    ),
+  findReplays: (...args) =>
+    ((self && self.findReplays) || findReplaysDebugFunc)(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],
