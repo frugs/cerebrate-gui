@@ -5,7 +5,7 @@ import "./SelectPlayerandOpponentInput.css";
 
 import Guy from "./Guy";
 
-export class SelectPlayerAndOpponentInput extends React.Component {
+class SelectPlayerAndOpponentInput extends React.Component {
   onPlayerSelected(event) {
     let {
       replayId,
@@ -116,3 +116,5 @@ export class SelectPlayerAndOpponentInput extends React.Component {
     );
   }
 }
+
+export default SelectPlayerAndOpponentInput;

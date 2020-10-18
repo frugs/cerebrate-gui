@@ -12,15 +12,17 @@ import { IconNames } from "@blueprintjs/icons";
 
 import SelectTagsInput from "./SelectTagsInput";
 import ReplaySelector from "./ReplaySelector";
-import { SelectPlayerAndOpponentInput } from "./SelectPlayerAndOpponentInput";
-import { ReplayDateFormGroup } from "./ReplayDateFormGroup";
+import SelectPlayerAndOpponentInput from "./SelectPlayerAndOpponentInput";
+import ReplayDateFormGroup from "./ReplayDateFormGroup";
 
-function SubmitReplayForm(props) {
+export function SubmitReplayForm(props) {
   const {
     notes,
+    replaySelectedTags,
     submittingReplay,
     setNotes,
     updateReplayInfo,
+    setReplaySelectedTags,
     ...other
   } = props;
   const {
@@ -53,6 +55,9 @@ function SubmitReplayForm(props) {
       <FormGroup label="Player tags">
         <SelectTagsInput
           {...other}
+          fill={true}
+          selectedTags={replaySelectedTags}
+          onTagsSelected={setReplaySelectedTags}
           disabled={formDisabled || playerTeam === null}
           tagPrefix={"player:"}
           tagIntent={Intent.SUCCESS}
@@ -61,6 +66,9 @@ function SubmitReplayForm(props) {
       <FormGroup label="Opponent tags">
         <SelectTagsInput
           {...other}
+          fill={true}
+          selectedTags={replaySelectedTags}
+          onTagsSelected={setReplaySelectedTags}
           disabled={formDisabled || opponentTeam === null}
           tagPrefix={"opponent:"}
           tagIntent={Intent.DANGER}
@@ -69,6 +77,9 @@ function SubmitReplayForm(props) {
       <FormGroup label="Game tags">
         <SelectTagsInput
           {...other}
+          fill={true}
+          selectedTags={replaySelectedTags}
+          onTagsSelected={setReplaySelectedTags}
           disabled={formDisabled}
           tagPrefix={"game:"}
           tagIntent={Intent.PRIMARY}
@@ -106,5 +117,3 @@ function SubmitReplayForm(props) {
     </div>
   );
 }
-
-export default SubmitReplayForm;

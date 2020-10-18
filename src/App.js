@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.scss";
-import SubmitReplayForm from "./SubmitReplayForm";
+import { SubmitReplayForm } from "./SubmitReplayForm";
 import Guy from "./Guy";
 import { CerebrateNavbar } from "./CerebrateNavbar";
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
-import { ReplayTagTree } from "./ReplayTagTree";
+import { FindReplays } from "./FindReplays";
 
 class App extends React.Component {
   constructor(props) {
@@ -18,14 +18,14 @@ class App extends React.Component {
       teams: [],
       playerTeam: null,
       opponentTeam: null,
-      selectedTags: [],
+      replaySelectedTags: [],
       notes: "",
       formDisabled: true,
       failedToLoadReplay: false,
       failedToTagReplay: false,
       submittingReplay: false,
       navbarTabId: "form",
-      allTags: [],
+      suggestTags: [],
 
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
 
@@ -38,8 +38,8 @@ class App extends React.Component {
 
       setOpponentTeam: (index) => this.setState({ opponentTeam: index }),
 
-      setSelectedTags: (selectedTags) =>
-        this.setState({ selectedTags: selectedTags }),
+      setReplaySelectedTags: (replaySelectedTags) =>
+        this.setState({ replaySelectedTags: replaySelectedTags }),
 
       setNotes: (notes) => this.setState({ notes: notes }),
 
@@ -51,7 +51,7 @@ class App extends React.Component {
           teams: [],
           playerTeam: null,
           opponentTeam: null,
-          selectedTags: [],
+          replaySelectedTags: [],
           notes: "",
           formDisabled: true,
         }),
@@ -66,7 +66,7 @@ class App extends React.Component {
         Guy.updateReplayInfo({
           replayId: this.state.replayId,
           replayData: this.state.replayData,
-          selectedTags: this.state.selectedTags,
+          selectedTags: this.state.replaySelectedTags,
           playerTeam: this.state.playerTeam,
           opponentTeam: this.state.opponentTeam,
           notes: this.state.notes,
@@ -81,7 +81,9 @@ class App extends React.Component {
 
     (async () => {
       const tagFrequencyTable = await Guy.fetchTagFrequencyTable([]);
-      this.setState({ allTags: tagFrequencyTable.map((entry) => entry.tag) });
+      this.setState({
+        suggestTags: tagFrequencyTable.map((entry) => entry.tag),
+      });
     })();
   }
 
@@ -118,7 +120,7 @@ class App extends React.Component {
         playerTeam: null,
         opponentTeam: null,
         replayTimestamp: null,
-        selectedTags: [],
+        replaySelectedTags: [],
         notes: "",
       });
       return;
@@ -135,7 +137,7 @@ class App extends React.Component {
       playerTeam: playerTeam,
       opponentTeam: opponentTeam,
       replayFileName: replayFileName || this.state.replayFileName,
-      selectedTags: selectedTags,
+      replaySelectedTags: selectedTags,
       notes: notes,
     });
   }
@@ -170,14 +172,12 @@ class App extends React.Component {
             <Tab
               id="form"
               title="Replay Details"
-              panel={
-                <SubmitReplayForm tags={this.state.allTags} {...this.state} />
-              }
+              panel={<SubmitReplayForm {...this.state} />}
             />
             <Tab
               id="search"
               title="Find Replays"
-              panel={<ReplayTagTree {...this.state} />}
+              panel={<FindReplays {...this.state} />}
             />
           </Tabs>
         </Card>

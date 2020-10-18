@@ -1,0 +1,44 @@
+@import "~@blueprintjs/core/lib/scss/variables.scss";
+
+.ReplayFilterAndSort-container-sorting > h5 {
+  color: $green3;
+}
+
+.ReplayFilterAndSort-container-include-tags > h5 {
+  color: $green3;
+}
+
+.ReplayFilterAndSort-container-exclude-tags > h5 {
+  color: $red3;
+}
+
+.ReplayFilterAndSort-container {
+  padding: 0.5em 0 0;
+  margin: 1em 0;
+  border-radius: 4px;
+  background-color: $light-gray5;
+}
+
+.ReplayFilterAndSort-control-group-heading {
+  padding: 0 1em;
+}
+
+.ReplayFilterAndSort-sorting-form-group {
+  padding: 0 1em;
+  flex-grow: 1;
+  max-width: 50%;
+}
+
+.ReplayFilterAndSort-sorting-form-group-content {
+  display: flex;
+}
+
+.ReplayFilterAndSort-sorting-descending-switch {
+  margin: 0 10px;
+}
+
+.ReplayFilterAndSort-select-tags-form-group {
+  padding: 0 1em;
+  flex-grow: 1;
+  max-width: 33.33%;
+}
