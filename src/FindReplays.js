@@ -1,10 +1,11 @@
 import React from "react";
 import { ReplayTagTree } from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
-import { Button, Intent } from "@blueprintjs/core";
+import { Button, Intent, Classes } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import "./FindReplays.css";
+import { AsyncUtils } from "./AsyncUtils";
 
 export class FindReplays extends React.Component {
   constructor(props) {
@@ -44,12 +45,8 @@ export class FindReplays extends React.Component {
         });
       },
 
-      searchResults: null,
-      setSearchResults: (searchResults) => {
-        this.setState({
-          searchResults: searchResults,
-        });
-      },
+      loading: false,
+      resultsCounter: 0,
     };
   }
 
@@ -61,17 +58,36 @@ export class FindReplays extends React.Component {
           <Button
             fill={true}
             intent={Intent.PRIMARY}
+            loading={this.state.loading}
             onClick={() => {
-              this.state.setSearchResults(
-                <ReplayTagTree {...this.props} {...this.state} />
-              );
+              this.setState({
+                loading: true,
+              });
+
+              (async () => {
+                await AsyncUtils.sleep(200);
+
+                this.setState({
+                  loading: false,
+                });
+                this.setState({
+                  resultsCounter: this.state.resultsCounter + 1,
+                });
+              })();
             }}
             icon={IconNames.SEARCH}
           >
             Find replays
           </Button>
         </div>
-        {this.state.searchResults}
+        {this.state.resultsCounter === 0 ? null : (
+          <ReplayTagTree
+            key={this.state.resultsCounter}
+            className={this.state.loading ? Classes.SKELETON : ""}
+            {...this.props}
+            {...this.state}
+          />
+        )}
       </div>
     );
   }
