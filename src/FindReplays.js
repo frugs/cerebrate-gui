@@ -1,6 +1,10 @@
 import React from "react";
 import { ReplayTagTree } from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
+import { Button, Intent } from "@blueprintjs/core";
+import { IconNames } from "@blueprintjs/icons";
+
+import "./FindReplays.css";
 
 export class FindReplays extends React.Component {
   constructor(props) {
@@ -39,14 +43,33 @@ export class FindReplays extends React.Component {
           excludeTags: excludeTags,
         });
       },
+
+      searchResults: null,
+      setSearchResults: (searchResults) => {
+        this.setState({
+          searchResults: searchResults,
+        });
+      },
     };
   }
 
   render() {
     return (
       <div>
-        <ReplayFilterAndSort {...this.props} {...this.state} />
-        <ReplayTagTree {...this.props} />
+        <div className={"FindReplays-filter-sort-container"}>
+          <ReplayFilterAndSort {...this.props} {...this.state} />
+          <Button
+            fill={true}
+            intent={Intent.PRIMARY}
+            onClick={() => {
+              this.state.setSearchResults(<ReplayTagTree {...this.props} />);
+            }}
+            icon={IconNames.SEARCH}
+          >
+            Find replays
+          </Button>
+        </div>
+        {this.state.searchResults}
       </div>
     );
   }

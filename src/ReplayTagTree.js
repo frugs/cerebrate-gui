@@ -37,6 +37,7 @@ export class ReplayTagTree extends React.Component {
               <strong>Replay results</strong>
             </div>
           ),
+          isExpanded: true,
           childNodes: [
             {
               id: 0,
@@ -54,7 +55,20 @@ export class ReplayTagTree extends React.Component {
     };
   }
 
-  async generateReplayFolderChildNodes(filterTags) {
+  componentDidMount() {
+    (async () => {
+      this.getRootNode().childNodes = await this.generateChildNodes(
+        this.getRootNode()
+      );
+      this.setState(this.state);
+    })();
+  }
+
+  getRootNode = () => {
+    return this.state.contents[0];
+  };
+
+  generateReplayFolderChildNodes = async (filterTags) => {
     const replaySummaries = await Guy.fetchReplaySummaries(filterTags);
 
     return replaySummaries.map((replaySummary, index) => ({
@@ -87,9 +101,9 @@ export class ReplayTagTree extends React.Component {
         </div>
       ),
     }));
-  }
+  };
 
-  async generateTagChildNodes(filterTags) {
+  generateTagChildNodes = async (filterTags) => {
     const tagFrequencyTable = await Guy.fetchTagFrequencyTable(filterTags);
 
     return [
@@ -166,7 +180,19 @@ export class ReplayTagTree extends React.Component {
         ],
       }))
     );
-  }
+  };
+
+  generateChildNodes = async (parentNode) => {
+    switch (parentNode.nodeType) {
+      case NodeType.REPLAY_FOLDER:
+        return await this.generateReplayFolderChildNodes(parentNode.filterTags);
+      case NodeType.ROOT:
+      case NodeType.TAG:
+        return await this.generateTagChildNodes(parentNode.filterTags);
+      default:
+        return [];
+    }
+  };
 
   handleNodeCollapse = (nodeData) => {
     nodeData.isExpanded = false;
@@ -177,27 +203,10 @@ export class ReplayTagTree extends React.Component {
     nodeData.isExpanded = true;
     this.setState(this.state);
 
-    switch (nodeData.nodeType) {
-      case NodeType.REPLAY_FOLDER:
-        (async () => {
-          nodeData.childNodes = await this.generateReplayFolderChildNodes(
-            nodeData.filterTags
-          );
-          this.setState(this.state);
-        })();
-        break;
-      case NodeType.ROOT:
-      case NodeType.TAG:
-        (async () => {
-          nodeData.childNodes = await this.generateTagChildNodes(
-            nodeData.filterTags
-          );
-          this.setState(this.state);
-        })();
-        break;
-      default:
-        break;
-    }
+    (async () => {
+      nodeData.childNodes = await this.generateChildNodes(nodeData);
+      this.setState(this.state);
+    })();
   };
 
   render() {
