@@ -20,6 +20,7 @@ export class ReplayTagTree extends React.Component {
   constructor(props) {
     super(props);
 
+    const { rootNodeReplays, rootNodeTagFrequencyTable } = props;
     this.state = {
       contents: [
         {
@@ -38,35 +39,15 @@ export class ReplayTagTree extends React.Component {
             </div>
           ),
           isExpanded: true,
-          childNodes: [
-            {
-              id: 0,
-              nodeType: NodeType.LOADING,
-              label: (
-                <span>
-                  <em>Loading...</em>
-                </span>
-              ),
-              disabled: true,
-            },
-          ],
+          childNodes: this.generateTagOrRootChildNodes(
+            [],
+            rootNodeReplays,
+            rootNodeTagFrequencyTable
+          ),
         },
       ],
     };
   }
-
-  componentDidMount() {
-    (async () => {
-      this.getRootNode().childNodes = await this.generateChildNodes(
-        this.getRootNode()
-      );
-      this.setState(this.state);
-    })();
-  }
-
-  getRootNode = () => {
-    return this.state.contents[0];
-  };
 
   generateReplayFolderChildNodes = (replays) => {
     return replays.map((replay, index) => ({
@@ -101,14 +82,7 @@ export class ReplayTagTree extends React.Component {
     }));
   };
 
-  generateTagChildNodes = async (filterTags) => {
-    const { includeTags, excludeTags } = this.props;
-
-    const { replays, tagFrequencyTable } = await Guy.findReplays({
-      includeTags: includeTags.concat(filterTags),
-      excludeTags: excludeTags,
-    });
-
+  generateTagOrRootChildNodes = (filterTags, replays, tagFrequencyTable) => {
     return [
       {
         id: 0,
@@ -174,29 +148,42 @@ export class ReplayTagTree extends React.Component {
     );
   };
 
-  generateChildNodes = async (parentNode) => {
-    switch (parentNode.nodeType) {
-      case NodeType.ROOT:
-      case NodeType.TAG:
-        return await this.generateTagChildNodes(parentNode.filterTags);
-      default:
-        return parentNode.childNodes;
-    }
-  };
-
   handleNodeCollapse = (nodeData) => {
+    if (nodeData.nodeType == NodeType.ROOT) {
+      return;
+    }
+
     nodeData.isExpanded = false;
     this.setState(this.state);
   };
 
-  handleNodeExpand = (nodeData) => {
+  handleNodeExpand = async (nodeData) => {
     nodeData.isExpanded = true;
     this.setState(this.state);
 
-    (async () => {
-      nodeData.childNodes = await this.generateChildNodes(nodeData);
-      this.setState(this.state);
-    })();
+    switch (nodeData.nodeType) {
+      case NodeType.TAG:
+        await this.handleTagNodeExpand(nodeData);
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleTagNodeExpand = async (nodeData) => {
+    const { includeTags, excludeTags } = this.props;
+
+    const { replays, tagFrequencyTable } = await Guy.findReplays({
+      includeTags: includeTags.concat(nodeData.filterTags),
+      excludeTags: excludeTags,
+    });
+
+    nodeData.childNodes = this.generateTagOrRootChildNodes(
+      nodeData.filterTags,
+      replays,
+      tagFrequencyTable
+    );
+    this.setState(this.state);
   };
 
   render() {

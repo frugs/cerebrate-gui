@@ -6,12 +6,16 @@ import { IconNames } from "@blueprintjs/icons";
 
 import "./FindReplays.css";
 import { AsyncUtils } from "./AsyncUtils";
+import { Guy } from "./Guy";
 
 export class FindReplays extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      loading: false,
+      resultsCounter: 0,
+
       filterReplaysByDate: false,
       setFilterReplaysByDate: (filterReplaysByDate) => {
         this.setState({ filterReplaysByDate: filterReplaysByDate });
@@ -45,8 +49,8 @@ export class FindReplays extends React.Component {
         });
       },
 
-      loading: false,
-      resultsCounter: 0,
+      rootNodeReplays: [],
+      rootNodeTagFrequencyTable: [],
     };
   }
 
@@ -65,12 +69,18 @@ export class FindReplays extends React.Component {
               });
 
               (async () => {
-                await AsyncUtils.sleep(200);
+                const [{ replays, tagFrequencyTable }] = await Promise.all([
+                  Guy.findReplays({
+                    includeTags: this.state.includeTags,
+                    excludeTags: this.state.excludeTags,
+                  }),
+                  AsyncUtils.sleep(200),
+                ]);
 
                 this.setState({
+                  rootNodeReplays: replays,
+                  rootNodeTagFrequencyTable: tagFrequencyTable,
                   loading: false,
-                });
-                this.setState({
                   resultsCounter: this.state.resultsCounter + 1,
                 });
               })();
