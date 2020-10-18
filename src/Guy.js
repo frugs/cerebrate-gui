@@ -157,10 +157,9 @@ const findReplaysDebugFunc = async (...args) => {
     return;
   }
 
-  let { includeTags } = args[0];
-  if (!includeTags) {
-    includeTags = [];
-  }
+  const payload = args[0];
+  const includeTags = payload.includeTags || [];
+  const excludeTags = payload.excludeTags || [];
 
   return {
     replays: [
@@ -205,7 +204,7 @@ const findReplaysDebugFunc = async (...args) => {
     ],
 
     tagFrequencyTable: EXAMPLE_TAGS.filter(
-      (tag) => !includeTags.includes(tag)
+      (tag) => !includeTags.includes(tag) && !excludeTags.includes(tag)
     ).map((tag) => ({
       tag: tag,
       frequency: 1,
