@@ -1,3 +1,29 @@
 .FindReplays-filter-sort-container {
   padding-bottom: 2em;
 }
+
+.FindReplays-results-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.FindReplays-tag-tree {
+  max-width: 70%;
+}
+
+.FindReplays-result-options-container {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  flex-shrink: 0;
+  padding-left: 10px;
+}
+
+.FindReplays-result-options-container > * {
+  margin: 1em 0;
+}
+
+.FindReplays-result-options-card > * {
+  margin: 1em 0;
+}
