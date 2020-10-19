@@ -149,7 +149,7 @@ export class ReplayTagTree extends React.Component {
   };
 
   handleNodeCollapse = (nodeData) => {
-    if (nodeData.nodeType == NodeType.ROOT) {
+    if (nodeData.nodeType === NodeType.ROOT) {
       return;
     }
 

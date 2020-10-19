@@ -7,6 +7,10 @@ import { IconNames } from "@blueprintjs/icons";
 import "./FindReplays.css";
 import { AsyncUtils } from "./AsyncUtils";
 import { Guy } from "./Guy";
+import { DateUtils } from "./DateUtils";
+
+const isValidDateRange = (dateRange) =>
+  dateRange.length === 2 && dateRange[0] !== null && dateRange[1] !== null;
 
 export class FindReplays extends React.Component {
   constructor(props) {
@@ -19,6 +23,11 @@ export class FindReplays extends React.Component {
       filterReplaysByDate: false,
       setFilterReplaysByDate: (filterReplaysByDate) => {
         this.setState({ filterReplaysByDate: filterReplaysByDate });
+      },
+
+      filterDateRange: [new Date(new Date().setHours(0, 0, 0, 0)), new Date()],
+      setFilterDateRange: (filterDateRange) => {
+        this.setState({ filterDateRange: filterDateRange });
       },
 
       sortReplaysDescending: true,
@@ -69,11 +78,23 @@ export class FindReplays extends React.Component {
               });
 
               (async () => {
+                const payload = {
+                  includeTags: this.state.includeTags,
+                  excludeTags: this.state.excludeTags,
+
+                  ...(this.state.filterReplaysByDate &&
+                    isValidDateRange(this.state.filterDateRange) && {
+                      startTimestamp: DateUtils.toTimestamp(
+                        this.state.filterDateRange[0]
+                      ),
+                      endTimestamp: DateUtils.toTimestamp(
+                        this.state.filterDateRange[1]
+                      ),
+                    }),
+                };
+
                 const [{ replays, tagFrequencyTable }] = await Promise.all([
-                  Guy.findReplays({
-                    includeTags: this.state.includeTags,
-                    excludeTags: this.state.excludeTags,
-                  }),
+                  Guy.findReplays(payload),
                   AsyncUtils.sleep(200),
                 ]);
 

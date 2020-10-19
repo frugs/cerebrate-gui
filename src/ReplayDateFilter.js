@@ -5,7 +5,13 @@ import "./ReplayDateFilter.css";
 import { DateRangePicker, TimePrecision } from "@blueprintjs/datetime";
 
 export function ReplayDateFilter(props) {
-  const { filterReplaysByDate, setFilterReplaysByDate, ...other } = props;
+  const {
+    filterReplaysByDate,
+    setFilterReplaysByDate,
+    filterDateRange,
+    setFilterDateRange,
+    ...other
+  } = props;
 
   const [selectedShortcutIndex, setSelectedShortcutIndex] = useState(0);
 
@@ -44,14 +50,12 @@ export function ReplayDateFilter(props) {
                   defaultValue: new Date(),
                 }}
                 allowSingleDayRange={true}
-                defaultValue={[
-                  new Date(new Date().setHours(0, 0, 0, 0)),
-                  new Date(),
-                ]}
                 selectedShortcutIndex={selectedShortcutIndex}
                 onShortcutChange={(shortcut, index) =>
                   setSelectedShortcutIndex(index)
                 }
+                value={filterDateRange}
+                onChange={(selectedDates) => setFilterDateRange(selectedDates)}
                 {...other}
               />
             </div>
