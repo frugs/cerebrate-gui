@@ -1,5 +1,5 @@
 import React from "react";
-import { ReplayTagTree } from "./ReplayTagTree";
+import { ReplayTagTree, generateTagTreeContents } from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
 import {
   Button,
@@ -66,6 +66,16 @@ export class FindReplays extends React.Component {
         });
       },
 
+      tagTreeContents: [],
+      setTagTreeContents: (tagTreeContents) => {
+        this.setState({
+          tagTreeContents: tagTreeContents,
+        });
+      },
+      updateTagTree: () => {
+        this.setState(this.state);
+      },
+
       rootNodeReplays: [],
       rootNodeTagFrequencyTable: [],
     };
@@ -107,10 +117,12 @@ export class FindReplays extends React.Component {
                 ]);
 
                 this.setState({
-                  rootNodeReplays: replays,
-                  rootNodeTagFrequencyTable: tagFrequencyTable,
                   loading: false,
                   resultsCounter: this.state.resultsCounter + 1,
+                  tagTreeContents: generateTagTreeContents(
+                    replays,
+                    tagFrequencyTable
+                  ),
                 });
               })();
             }}
@@ -128,6 +140,7 @@ export class FindReplays extends React.Component {
             <ReplayTagTree
               className={"FindReplays-tag-tree"}
               key={this.state.resultsCounter}
+              contents={this.state.tagTreeContents}
               {...this.props}
               {...this.state}
             />
