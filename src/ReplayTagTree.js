@@ -148,9 +148,61 @@ export class ReplayTagTree extends React.Component {
     );
   };
 
+  deselectNodes = (nodes) => {
+    if (!nodes) {
+      return;
+    }
+
+    for (const nodeData of nodes) {
+      nodeData.isSelected = false;
+      this.deselectNodes(nodeData.childNodes);
+    }
+  };
+
+  deselectAllNodes = () => {
+    this.deselectNodes(this.state.contents);
+  };
+
+  handleNodeClick = async (nodeData, _, event) => {
+    switch (nodeData.nodeType) {
+      case NodeType.TAG:
+        await this.handleNodeExpand(nodeData);
+        break;
+      case NodeType.REPLAY_FOLDER:
+      case NodeType.REPLAY:
+        if (!event.shiftKey) {
+          const wasSelected = nodeData.isSelected;
+          this.deselectAllNodes();
+          nodeData.isSelected =
+            nodeData.nodeType === NodeType.REPLAY || !wasSelected;
+        } else {
+          nodeData.isSelected = !nodeData.isSelected;
+        }
+
+        if (nodeData.childNodes) {
+          for (let childNode of nodeData.childNodes) {
+            childNode.isSelected = nodeData.isSelected;
+          }
+        }
+
+        if (nodeData.isSelected && !nodeData.isExpanded) {
+          await this.handleNodeExpand(nodeData);
+        }
+
+        this.setState(this.state);
+        break;
+      default:
+        break;
+    }
+  };
+
   handleNodeCollapse = (nodeData) => {
     if (nodeData.nodeType === NodeType.ROOT) {
       return;
+    }
+
+    if (nodeData.nodeType === NodeType.TAG) {
+      this.deselectNodes(nodeData.childNodes);
     }
 
     nodeData.isExpanded = false;
@@ -191,6 +243,7 @@ export class ReplayTagTree extends React.Component {
       <Tree
         {...this.props}
         contents={this.state.contents}
+        onNodeClick={this.handleNodeClick}
         onNodeExpand={this.handleNodeExpand}
         onNodeCollapse={this.handleNodeCollapse}
       />
