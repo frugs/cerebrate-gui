@@ -22,7 +22,11 @@ function SortFormGroup(props) {
       contentClassName={"ReplayFilterAndSort-sorting-form-group-content"}
       label={formGroupLabel}
     >
-      <HTMLSelect fill={true} options={selectOptions} value={selectValue} />
+      <HTMLSelect
+        fill={true}
+        options={selectOptions}
+        defaultValue={selectValue}
+      />
       <Switch
         className={"ReplayFilterAndSort-sorting-descending-switch"}
         checked={sortDescending}

@@ -234,3 +234,18 @@ export const generateTagTreeContents = (replays, tagFrequencyTable) => [
     childNodes: generateTagOrRootChildNodes([], replays, tagFrequencyTable),
   },
 ];
+
+export const getSelectedReplays = (nodes) => {
+  if (!nodes) {
+    return [];
+  }
+
+  return nodes
+    .filter(
+      (nodeData) => nodeData.isSelected && nodeData.nodeType === NodeType.REPLAY
+    )
+    .map((nodeData) => nodeData.replay)
+    .concat(
+      nodes.map((nodeData) => getSelectedReplays(nodeData.childNodes)).flat()
+    );
+};

@@ -13,36 +13,34 @@ class App extends React.Component {
 
     this.state = {
       replayId: "",
-      replayFileName: "",
-      replayTimestamp: null,
-      replayData: "",
-      teams: [],
-      playerTeam: null,
-      opponentTeam: null,
-      replaySelectedTags: [],
-      notes: "",
-      formDisabled: true,
-      failedToLoadReplay: false,
-      failedToTagReplay: false,
-      submittingReplay: false,
-      navbarTabId: "form",
-      suggestTags: [],
-
       setReplayId: (replayId) => this.setState({ replayId: replayId }),
 
+      replayFileName: "",
       setReplayFileName: (replayFileName) =>
         this.setState({ replayFileName: replayFileName }),
 
+      replayTimestamp: null,
+
+      replayData: "",
       setReplayData: (replayData) => this.setState({ replayData: replayData }),
 
+      teams: [],
+
+      playerTeam: null,
       setPlayerTeam: (index) => this.setState({ playerTeam: index }),
 
+      opponentTeam: null,
       setOpponentTeam: (index) => this.setState({ opponentTeam: index }),
 
+      replaySelectedTags: [],
       setReplaySelectedTags: (replaySelectedTags) =>
         this.setState({ replaySelectedTags: replaySelectedTags }),
 
+      notes: "",
       setNotes: (notes) => this.setState({ notes: notes }),
+
+      formDisabled: true,
+      disableForm: () => this.setState({ formDisabled: true }),
 
       resetAndDisableForm: () =>
         this.setState({
@@ -57,7 +55,16 @@ class App extends React.Component {
           formDisabled: true,
         }),
 
-      disableForm: () => this.setState({ formDisabled: true }),
+      failedToLoadReplay: false,
+      failedToTagReplay: false,
+      submittingReplay: false,
+
+      navbarTabId: "form",
+      setNavbarTabId: (navbarTabId) => {
+        this.setState({ navbarTabId: navbarTabId });
+      },
+
+      suggestTags: [],
 
       updateReplayInfo: () => {
         this.setState({

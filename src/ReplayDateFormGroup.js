@@ -10,7 +10,7 @@ class ReplayDateFormGroup extends React.Component {
         <InputGroup
           disabled={true}
           fill={true}
-          value={replayTimestamp && DateUtils.formatDate(replayTimestamp)}
+          value={replayTimestamp ? DateUtils.formatDate(replayTimestamp) : ""}
         />
       </FormGroup>
     );

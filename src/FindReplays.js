@@ -1,5 +1,9 @@
 import React from "react";
-import { ReplayTagTree, generateTagTreeContents } from "./ReplayTagTree";
+import {
+  ReplayTagTree,
+  generateTagTreeContents,
+  getSelectedReplays,
+} from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
 import {
   Button,
@@ -76,12 +80,13 @@ export class FindReplays extends React.Component {
         this.setState(this.state);
       },
 
-      rootNodeReplays: [],
-      rootNodeTagFrequencyTable: [],
+      viewDetailsButtonLoading: false,
     };
   }
 
   render() {
+    const { setNavbarTabId } = this.props;
+
     return (
       <div>
         <div className={"FindReplays-filter-sort-container"}>
@@ -147,15 +152,45 @@ export class FindReplays extends React.Component {
             <div className={"FindReplays-result-options-container"}>
               <Card className={"FindReplays-result-options-card"}>
                 <H5>Replay actions</H5>
-                <Button fill={true} icon={IconNames.DOCUMENT}>
-                  View details{" "}
+                <Button
+                  fill={true}
+                  icon={IconNames.DOCUMENT}
+                  disabled={
+                    getSelectedReplays(this.state.tagTreeContents).length !== 1
+                  }
+                  loading={this.state.viewDetailsButtonLoading}
+                  onClick={async (event) => {
+                    const selectedReplays = getSelectedReplays(
+                      this.state.tagTreeContents
+                    );
+                    if (selectedReplays.length !== 1) {
+                      return;
+                    }
+                    this.setState({ viewDetailsButtonLoading: true });
+
+                    await Guy.selectReplay({
+                      replayId: selectedReplays[0].replayId,
+                      force: true,
+                    });
+
+                    this.setState({ viewDetailsButtonLoading: false });
+                    setNavbarTabId("form");
+                  }}
+                >
+                  View details
                 </Button>
                 <Button
                   fill={true}
                   intent={Intent.WARNING}
                   icon={IconNames.DELETE}
+                  disabled={
+                    getSelectedReplays(this.state.tagTreeContents).length === 0
+                  }
+                  onClick={() =>
+                    console.log(getSelectedReplays(this.state.tagTreeContents))
+                  }
                 >
-                  Forget replay
+                  Forget replay(s)
                 </Button>
               </Card>
               <Card className={"FindReplays-result-options-card"}>
@@ -180,19 +215,16 @@ export class FindReplays extends React.Component {
                         value: "sc2replaystats",
                         disabled: true,
                       },
-                      {
-                        label: "Sc2ReplayStats",
-                        value: "sc2replaystats",
-                        disabled: true,
-                      },
                     ]}
-                    value={"tempDir"}
                   />
                 </FormGroup>
                 <Button
                   fill={true}
                   icon={IconNames.EXPORT}
                   intent={Intent.PRIMARY}
+                  disabled={
+                    getSelectedReplays(this.state.tagTreeContents).length === 0
+                  }
                 >
                   Export
                 </Button>

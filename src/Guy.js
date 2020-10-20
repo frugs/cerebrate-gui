@@ -47,7 +47,7 @@ const selectReplayDebugFunc = async (...args) => {
 
   await AsyncUtils.sleep(200);
 
-  const { replayId } = args[0];
+  const { replayId, force } = args[0];
 
   Guy.onReplayLoadedListeners.forEach((listener) =>
     listener.onReplayLoaded({
@@ -59,7 +59,7 @@ const selectReplayDebugFunc = async (...args) => {
       replayFileName: null,
       selectedTags: ["game:fake_tag"],
       notes: "Some fake notes",
-      force: false,
+      force: force,
     })
   );
 };
