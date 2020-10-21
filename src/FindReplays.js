@@ -199,10 +199,19 @@ export class FindReplays extends React.Component {
                   isOpen={this.state.isConfirmForgetAlertOpen}
                   cancelButtonText={"Cancel"}
                   confirmButtonText={"Forget replay(s)"}
+                  canOutsideClickCancel={true}
                   onCancel={() =>
                     this.setState({ isConfirmForgetAlertOpen: false })
                   }
-                  onConfirm={() => {
+                  onConfirm={async () => {
+                    let selectedReplayIds = getSelectedReplays(
+                      this.state.tagTreeContents
+                    ).map((replay) => replay.replayId);
+
+                    await Guy.forgetReplays({
+                      replayIds: selectedReplayIds,
+                    });
+
                     forgetSelectedReplays(this.state.tagTreeContents);
                     this.state.updateTagTree();
                     this.setState({ isConfirmForgetAlertOpen: false });
