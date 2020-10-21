@@ -3,9 +3,11 @@ import {
   ReplayTagTree,
   generateTagTreeContents,
   getSelectedReplays,
+  forgetSelectedReplays,
 } from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
 import {
+  Alert,
   Button,
   Card,
   Classes,
@@ -81,6 +83,7 @@ export class FindReplays extends React.Component {
       },
 
       viewDetailsButtonLoading: false,
+      isConfirmForgetAlertOpen: false,
     };
   }
 
@@ -186,12 +189,30 @@ export class FindReplays extends React.Component {
                   disabled={
                     getSelectedReplays(this.state.tagTreeContents).length === 0
                   }
-                  onClick={() =>
-                    console.log(getSelectedReplays(this.state.tagTreeContents))
-                  }
+                  onClick={() => {
+                    this.setState({ isConfirmForgetAlertOpen: true });
+                  }}
                 >
                   Forget replay(s)
                 </Button>
+                <Alert
+                  isOpen={this.state.isConfirmForgetAlertOpen}
+                  cancelButtonText={"Cancel"}
+                  confirmButtonText={"Forget replay(s)"}
+                  onCancel={() =>
+                    this.setState({ isConfirmForgetAlertOpen: false })
+                  }
+                  onConfirm={() => {
+                    forgetSelectedReplays(this.state.tagTreeContents);
+                    this.state.updateTagTree();
+                    this.setState({ isConfirmForgetAlertOpen: false });
+                  }}
+                  intent={Intent.WARNING}
+                  icon={IconNames.WARNING_SIGN}
+                >
+                  Are you sure you want to forget these replays? This will cause
+                  any tags you might have added to be permanently lost.
+                </Alert>
               </Card>
               <Card className={"FindReplays-result-options-card"}>
                 <H5>Export actions</H5>

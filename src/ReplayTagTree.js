@@ -39,6 +39,14 @@ export class ReplayTagTree extends React.Component {
         break;
       case NodeType.REPLAY_FOLDER:
       case NodeType.REPLAY:
+        if (
+          nodeData.nodeType === NodeType.REPLAY_FOLDER &&
+          !nodeData.isExpanded
+        ) {
+          await this.handleNodeExpand(nodeData);
+          break;
+        }
+
         if (!event.shiftKey) {
           const wasSelected = nodeData.isSelected;
           this.deselectAllNodes();
@@ -50,7 +58,7 @@ export class ReplayTagTree extends React.Component {
 
         if (nodeData.childNodes) {
           for (let childNode of nodeData.childNodes) {
-            childNode.isSelected = nodeData.isSelected;
+            childNode.isSelected = !childNode.disabled && nodeData.isSelected;
           }
         }
 
@@ -66,12 +74,16 @@ export class ReplayTagTree extends React.Component {
   };
 
   handleNodeCollapse = (nodeData) => {
-    if (nodeData.nodeType === NodeType.ROOT) {
-      return;
-    }
-
-    if (nodeData.nodeType === NodeType.TAG) {
-      this.deselectNodes(nodeData.childNodes);
+    switch (nodeData.nodeType) {
+      case NodeType.ROOT:
+        return;
+      case NodeType.TAG:
+      case NodeType.REPLAY_FOLDER:
+        nodeData.isSelected = false;
+        this.deselectNodes(nodeData.childNodes);
+        break;
+      default:
+        break;
     }
 
     nodeData.isExpanded = false;
@@ -248,4 +260,37 @@ export const getSelectedReplays = (nodes) => {
     .concat(
       nodes.map((nodeData) => getSelectedReplays(nodeData.childNodes)).flat()
     );
+};
+
+export const forgetSelectedReplays = (nodes) => {
+  if (!nodes) {
+    return;
+  }
+
+  const selectedReplayIds = new Set(
+    getSelectedReplays(nodes).map((replay) => replay.replayId)
+  );
+
+  const forgetSelectedReplaysInner = (nodes) => {
+    if (!nodes) {
+      return;
+    }
+
+    nodes
+      .filter(
+        (nodeData) =>
+          nodeData.nodeType === NodeType.REPLAY &&
+          selectedReplayIds.has(nodeData.replay.replayId)
+      )
+      .forEach((nodeData) => {
+        nodeData.disabled = true;
+        nodeData.isSelected = false;
+      });
+
+    nodes.forEach((nodeData) =>
+      forgetSelectedReplaysInner(nodeData.childNodes)
+    );
+  };
+
+  forgetSelectedReplaysInner(nodes);
 };
