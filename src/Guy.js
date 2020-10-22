@@ -191,10 +191,6 @@ const findReplaysDebugFunc = async (...args) => {
   };
 };
 
-const forgetReplaysDebugFunc = async (...args) => {
-  debugFunc(args);
-};
-
 export const Guy = {
   selectReplay: (...args) =>
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
@@ -216,7 +212,10 @@ export const Guy = {
     ((self && self.findReplays) || findReplaysDebugFunc)(...args),
 
   forgetReplays: (...args) =>
-    ((self && self.forgetReplays) || forgetReplaysDebugFunc)(...args),
+    ((self && self.forgetReplays) || debugFunc)(...args),
+
+  exportReplaysToTempDir: (...args) =>
+    ((self && self.exportReplaysToTempDir) || debugFunc)(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],

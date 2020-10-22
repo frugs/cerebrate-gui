@@ -1,27 +1,19 @@
 import React from "react";
 import {
-  ReplayTagTree,
+  forgetSelectedReplays,
   generateTagTreeContents,
   getSelectedReplays,
-  forgetSelectedReplays,
+  ReplayTagTree,
 } from "./ReplayTagTree";
 import { ReplayFilterAndSort } from "./ReplayFilterAndSort";
-import {
-  Alert,
-  Button,
-  Card,
-  Classes,
-  FormGroup,
-  H5,
-  HTMLSelect,
-  Intent,
-} from "@blueprintjs/core";
+import { Alert, Button, Card, Classes, H5, Intent } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 
 import "./FindReplays.css";
 import { AsyncUtils } from "./AsyncUtils";
 import { Guy } from "./Guy";
 import { DateUtils } from "./DateUtils";
+import { ExportActionsCard } from "./ExportActionsCard";
 
 const isValidDateRange = (dateRange) =>
   dateRange.length === 2 && dateRange[0] !== null && dateRange[1] !== null;
@@ -84,8 +76,16 @@ export class FindReplays extends React.Component {
 
       viewDetailsButtonLoading: false,
       isConfirmForgetAlertOpen: false,
+
+      exportReplaysButtonLoading: false,
     };
   }
+
+  getSelectedReplayIds = () => {
+    return getSelectedReplays(this.state.tagTreeContents).map(
+      (replay) => replay.replayId
+    );
+  };
 
   render() {
     const { setNavbarTabId } = this.props;
@@ -204,12 +204,8 @@ export class FindReplays extends React.Component {
                     this.setState({ isConfirmForgetAlertOpen: false })
                   }
                   onConfirm={async () => {
-                    let selectedReplayIds = getSelectedReplays(
-                      this.state.tagTreeContents
-                    ).map((replay) => replay.replayId);
-
                     await Guy.forgetReplays({
-                      replayIds: selectedReplayIds,
+                      replayIds: this.getSelectedReplayIds(),
                     });
 
                     forgetSelectedReplays(this.state.tagTreeContents);
@@ -223,42 +219,21 @@ export class FindReplays extends React.Component {
                   any tags you might have added to be permanently lost.
                 </Alert>
               </Card>
-              <Card className={"FindReplays-result-options-card"}>
-                <H5>Export actions</H5>
-                <FormGroup label={"Export replay(s) to"}>
-                  <HTMLSelect
-                    fill={true}
-                    options={[
-                      { label: "Temporary directory", value: "tempDir" },
-                      {
-                        label: "Choose directory...",
-                        value: "chooseDir",
-                        disabled: true,
-                      },
-                      {
-                        label: "Scelight",
-                        value: "scelight",
-                        disabled: true,
-                      },
-                      {
-                        label: "Sc2ReplayStats",
-                        value: "sc2replaystats",
-                        disabled: true,
-                      },
-                    ]}
-                  />
-                </FormGroup>
-                <Button
-                  fill={true}
-                  icon={IconNames.EXPORT}
-                  intent={Intent.PRIMARY}
-                  disabled={
-                    getSelectedReplays(this.state.tagTreeContents).length === 0
-                  }
-                >
-                  Export
-                </Button>
-              </Card>
+              <ExportActionsCard
+                className={"FindReplays-result-options-card"}
+                loading={this.state.exportReplaysButtonLoading}
+                setLoading={(loading) =>
+                  this.setState({ exportReplaysButtonLoading: loading })
+                }
+                disabled={
+                  getSelectedReplays(this.state.tagTreeContents).length === 0
+                }
+                exportReplaysToTemporaryDirectory={async () =>
+                  Guy.exportReplaysToTempDir({
+                    replayIds: this.getSelectedReplayIds(),
+                  })
+                }
+              />
             </div>
           </div>
         )}
