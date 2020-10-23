@@ -191,14 +191,14 @@ const findReplaysDebugFunc = async (...args) => {
   };
 };
 
-const exportReplaysToTempDirDebugFunc = async (...args) => {
+const exportReplaysToDirDebugFunc = async (...args) => {
   debugFunc(args);
 
   if (args.length < 1) {
     return;
   }
 
-  return "path/to/temporary/directory";
+  return "path/to/directory";
 };
 
 export const Guy = {
@@ -225,7 +225,12 @@ export const Guy = {
     ((self && self.forgetReplays) || debugFunc)(...args),
 
   exportReplaysToTempDir: (...args) =>
-    ((self && self.exportReplaysToTempDir) || exportReplaysToTempDirDebugFunc)(
+    ((self && self.exportReplaysToTempDir) || exportReplaysToDirDebugFunc)(
+      ...args
+    ),
+
+  exportReplaysToTargetDir: (...args) =>
+    ((self && self.exportReplaysToTargetDir) || exportReplaysToDirDebugFunc)(
       ...args
     ),
 

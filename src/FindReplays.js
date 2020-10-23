@@ -233,6 +233,11 @@ export class FindReplays extends React.Component {
                     replayIds: this.getSelectedReplayIds(),
                   })
                 }
+                exportReplaysToTargetDirectory={async () =>
+                  Guy.exportReplaysToTargetDir({
+                    replayIds: this.getSelectedReplayIds(),
+                  })
+                }
               />
             </div>
           </div>

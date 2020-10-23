@@ -51,10 +51,7 @@ function ExportOutputPathFormGroup(props) {
   const { loading, outputPath } = props;
 
   return outputPath ? (
-    <FormGroup
-      className={"ExportActionsCard-output-path-form-group"}
-      label="Export output"
-    >
+    <FormGroup label="Export output directory">
       <InputGroup
         disabled={loading}
         fill={true}
@@ -86,7 +83,11 @@ function ExportOptionFragment(props) {
 
   switch (exportTarget) {
     case "tempDir":
-      const { exportReplaysToTemporaryDirectory } = other;
+    case "chooseDir":
+      const {
+        exportReplaysToTemporaryDirectory,
+        exportReplaysToTargetDirectory,
+      } = other;
 
       return (
         <Fragment>
@@ -95,7 +96,11 @@ function ExportOptionFragment(props) {
             loading={loading}
             setLoading={setLoading}
             setOutputPath={setOutputPath}
-            exportToDirectory={exportReplaysToTemporaryDirectory}
+            exportToDirectory={
+              exportTarget === "tempDir"
+                ? exportReplaysToTemporaryDirectory
+                : exportReplaysToTargetDirectory
+            }
           />
           <ExportOutputPathFormGroup
             loading={loading}
@@ -125,6 +130,7 @@ export class ExportActionsCard extends React.Component {
       loading,
       setLoading,
       exportReplaysToTemporaryDirectory,
+      exportReplaysToTargetDirectory,
     } = this.props;
 
     return (
@@ -138,7 +144,6 @@ export class ExportActionsCard extends React.Component {
               {
                 label: "Choose directory...",
                 value: "chooseDir",
-                disabled: true,
               },
               {
                 label: "Scelight",
@@ -152,7 +157,10 @@ export class ExportActionsCard extends React.Component {
               },
             ]}
             onChange={(event) =>
-              this.setState({ exportOption: event.currentTarget.value })
+              this.setState({
+                exportOption: event.currentTarget.value,
+                outputPath: null,
+              })
             }
           />
         </FormGroup>
@@ -166,6 +174,7 @@ export class ExportActionsCard extends React.Component {
             this.setState({ outputPath: outputPath })
           }
           exportReplaysToTemporaryDirectory={exportReplaysToTemporaryDirectory}
+          exportReplaysToTargetDirectory={exportReplaysToTargetDirectory}
         />
       </Card>
     );
