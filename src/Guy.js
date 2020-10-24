@@ -201,6 +201,18 @@ const exportReplaysToDirDebugFunc = async (...args) => {
   return "path/to/directory";
 };
 
+const getScelightPathDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  return null;
+};
+
+const selectScelightPathDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  return "path/to/scelight";
+};
+
 export const Guy = {
   selectReplay: (...args) =>
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
@@ -233,6 +245,18 @@ export const Guy = {
     ((self && self.exportReplaysToTargetDir) || exportReplaysToDirDebugFunc)(
       ...args
     ),
+
+  exportReplaysToScelight: (...args) =>
+    ((self && self.exportReplaysToScelight) || debugFunc)(...args),
+
+  openDirInFileManager: (...args) =>
+    ((self && self.openDirInFileManager) || debugFunc)(...args),
+
+  getScelightPath: (...args) =>
+    ((self && self.getScelightPath) || getScelightPathDebugFunc)(...args),
+
+  selectScelightPath: (...args) =>
+    ((self && self.selectScelightPath) || selectScelightPathDebugFunc)(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],

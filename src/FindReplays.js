@@ -238,6 +238,11 @@ export class FindReplays extends React.Component {
                     replayIds: this.getSelectedReplayIds(),
                   })
                 }
+                exportSelectedReplaysToScelight={async () =>
+                  Guy.exportReplaysToScelight({
+                    replayIds: this.getSelectedReplayIds(),
+                  })
+                }
               />
             </div>
           </div>

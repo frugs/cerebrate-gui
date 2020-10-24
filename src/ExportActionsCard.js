@@ -13,6 +13,7 @@ import { AsyncUtils } from "./AsyncUtils";
 import React, { Fragment } from "react";
 
 import "./ExportActionsCard.css";
+import { Guy } from "./Guy";
 
 function ExportToDirectoryButton(props) {
   const {
@@ -58,12 +59,20 @@ function ExportOutputPathFormGroup(props) {
         value={outputPath}
         leftElement={<Icon icon={IconNames.FOLDER_CLOSE} />}
         rightElement={
-          <Button
-            loading={loading}
-            icon={IconNames.DUPLICATE}
-            title={"Copy to clipboard"}
-            onClick={() => navigator.clipboard.writeText(outputPath)}
-          />
+          <Fragment>
+            <Button
+              loading={loading}
+              icon={IconNames.DUPLICATE}
+              title={"Copy to clipboard"}
+              onClick={() => navigator.clipboard.writeText(outputPath)}
+            />
+            <Button
+              loading={loading}
+              icon={IconNames.SHARE}
+              title={"Open in file manager"}
+              onClick={() => Guy.openDirInFileManager({ dirPath: outputPath })}
+            />
+          </Fragment>
         }
       />
     </FormGroup>
@@ -108,6 +117,63 @@ function ExportOptionFragment(props) {
           />
         </Fragment>
       );
+    case "scelight":
+      const {
+        scelightPath,
+        setScelightPath,
+        exportSelectedReplaysToScelight,
+      } = other;
+
+      return (
+        <Fragment>
+          <FormGroup label="Choose Scelight installation">
+            <InputGroup
+              disabled={loading}
+              fill={true}
+              value={scelightPath ? scelightPath : ""}
+              leftElement={<Icon icon={IconNames.APPLICATION} />}
+              rightElement={
+                <Button
+                  loading={loading}
+                  icon={IconNames.DOCUMENT_OPEN}
+                  title={"Choose location"}
+                  onClick={async () => {
+                    setLoading(true);
+
+                    const [path] = await Promise.all([
+                      Guy.selectScelightPath(),
+                      AsyncUtils.sleep(200),
+                    ]);
+
+                    setScelightPath(path);
+
+                    setLoading(false);
+                  }}
+                />
+              }
+            />
+          </FormGroup>
+          <Button
+            fill={true}
+            icon={IconNames.EXPORT}
+            intent={Intent.PRIMARY}
+            loading={loading}
+            disabled={disabled || !scelightPath}
+            onClick={async () => {
+              setLoading(true);
+
+              await Promise.all([
+                exportSelectedReplaysToScelight(),
+                AsyncUtils.sleep(200),
+              ]);
+
+              setLoading(false);
+            }}
+          >
+            Export
+          </Button>
+        </Fragment>
+      );
     default:
       return null;
   }
@@ -120,7 +186,14 @@ export class ExportActionsCard extends React.Component {
     this.state = {
       exportOption: "tempDir",
       outputPath: null,
+      scelightPath: null,
     };
+  }
+
+  async componentDidMount() {
+    this.setState({
+      scelightPath: await Guy.getScelightPath(),
+    });
   }
 
   render() {
@@ -131,6 +204,7 @@ export class ExportActionsCard extends React.Component {
       setLoading,
       exportReplaysToTemporaryDirectory,
       exportReplaysToTargetDirectory,
+      exportSelectedReplaysToScelight,
     } = this.props;
 
     return (
@@ -148,7 +222,6 @@ export class ExportActionsCard extends React.Component {
               {
                 label: "Scelight",
                 value: "scelight",
-                disabled: true,
               },
               {
                 label: "Sc2ReplayStats",
@@ -173,8 +246,13 @@ export class ExportActionsCard extends React.Component {
           setOutputPath={(outputPath) =>
             this.setState({ outputPath: outputPath })
           }
+          scelightPath={this.state.scelightPath}
+          setScelightPath={(scelightPath) =>
+            this.setState({ scelightPath: scelightPath })
+          }
           exportReplaysToTemporaryDirectory={exportReplaysToTemporaryDirectory}
           exportReplaysToTargetDirectory={exportReplaysToTargetDirectory}
+          exportSelectedReplaysToScelight={exportSelectedReplaysToScelight}
         />
       </Card>
     );
