@@ -7,10 +7,15 @@ import {
   Icon,
   InputGroup,
   Intent,
+  Overlay,
+  Elevation,
+  Classes,
+  Tag,
+  UL,
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { AsyncUtils } from "./AsyncUtils";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 
 import "./ExportActionsCard.css";
 import { Guy } from "./Guy";
@@ -89,6 +94,11 @@ function ExportOptionFragment(props) {
     setOutputPath,
     ...other
   } = props;
+
+  const [
+    sc2ReplayStatsHelpOverlayOpen,
+    setSc2ReplayStatsHelpOverlayOpen,
+  ] = useState(false);
 
   switch (exportTarget) {
     case "tempDir":
@@ -175,27 +185,89 @@ function ExportOptionFragment(props) {
         </Fragment>
       );
     case "sc2replaystats":
-      const { exportSelectedReplaysToSc2ReplayStats } = other;
+      const {
+        exportSelectedReplaysToSc2ReplayStats,
+        sc2ReplayStatsAuthKey,
+        setSc2ReplayStatsAuthKey,
+      } = other;
       return (
-        <Button
-          fill={true}
-          icon={IconNames.EXPORT}
-          intent={Intent.PRIMARY}
-          loading={loading}
-          disabled={disabled}
-          onClick={async () => {
-            setLoading(true);
+        <Fragment>
+          <FormGroup label="Sc2ReplayStats API Key">
+            <InputGroup
+              disabled={loading}
+              fill={true}
+              value={sc2ReplayStatsAuthKey ? sc2ReplayStatsAuthKey : ""}
+              leftElement={<Icon icon={IconNames.APPLICATION} />}
+              rightElement={
+                <Button
+                  icon={IconNames.HELP}
+                  title={"Show help"}
+                  onClick={() => setSc2ReplayStatsHelpOverlayOpen(true)}
+                />
+              }
+              onChange={(event) =>
+                setSc2ReplayStatsAuthKey(event.currentTarget.value)
+              }
+            />
+          </FormGroup>
+          <Button
+            fill={true}
+            icon={IconNames.EXPORT}
+            intent={Intent.PRIMARY}
+            loading={loading}
+            disabled={disabled || !sc2ReplayStatsAuthKey}
+            onClick={async () => {
+              setLoading(true);
 
-            await Promise.all([
-              exportSelectedReplaysToSc2ReplayStats(),
-              AsyncUtils.sleep(200),
-            ]);
+              await Promise.all([
+                exportSelectedReplaysToSc2ReplayStats(sc2ReplayStatsAuthKey),
+                AsyncUtils.sleep(200),
+              ]);
 
-            setLoading(false);
-          }}
-        >
-          Export
-        </Button>
+              setLoading(false);
+            }}
+          >
+            Export
+          </Button>
+          <Overlay isOpen={sc2ReplayStatsHelpOverlayOpen}>
+            <Card
+              className={"ExportActionsCard-sc2replaystats-help-overlay-card"}
+              elevation={Elevation.FOUR}
+            >
+              <H5>How to find your Sc2ReplayStats API Key</H5>
+              <UL>
+                <li>
+                  Open <a href={"https://sc2replaystats.com"}>Sc2ReplayStats</a>
+                </li>
+                <li>
+                  Open the menu and navigate through to{" "}
+                  <Tag large={true}>My Account</Tag>
+                  &nbsp;
+                  <Icon icon={IconNames.ARROW_RIGHT} />
+                  &nbsp;
+                  <Tag large={true}>Settings</Tag>
+                </li>
+                <li>
+                  Click <Tag large={true}>API Access</Tag> in the side menu.
+                </li>
+                <li>
+                  <Tag round={true} minimal={true}>
+                    <em>Optional&nbsp;</em>
+                  </Tag>{" "}
+                  Click the <Tag large={true}>Generate New API Key</Tag> button.
+                </li>
+                <li>
+                  Copy your Sc2ReplayStats API Key and paste it into Cerebrate.
+                </li>
+              </UL>
+              <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+                <Button onClick={() => setSc2ReplayStatsHelpOverlayOpen(false)}>
+                  Close
+                </Button>
+              </div>
+            </Card>
+          </Overlay>
+        </Fragment>
       );
     default:
       return null;
@@ -210,6 +282,7 @@ export class ExportActionsCard extends React.Component {
       exportOption: "tempDir",
       outputPath: null,
       scelightPath: null,
+      sc2ReplayStatsAuthKey: null,
     };
   }
 
@@ -272,6 +345,10 @@ export class ExportActionsCard extends React.Component {
           scelightPath={this.state.scelightPath}
           setScelightPath={(scelightPath) =>
             this.setState({ scelightPath: scelightPath })
+          }
+          sc2ReplayStatsAuthKey={this.state.sc2ReplayStatsAuthKey}
+          setSc2ReplayStatsAuthKey={(sc2ReplayStatsAuthKey) =>
+            this.setState({ sc2ReplayStatsAuthKey: sc2ReplayStatsAuthKey })
           }
           exportReplaysToTemporaryDirectory={exportReplaysToTemporaryDirectory}
           exportReplaysToTargetDirectory={exportReplaysToTargetDirectory}

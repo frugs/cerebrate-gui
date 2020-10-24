@@ -243,9 +243,10 @@ export class FindReplays extends React.Component {
                     replayIds: this.getSelectedReplayIds(),
                   })
                 }
-                exportSelectedReplaysToSc2ReplayStats={async () =>
+                exportSelectedReplaysToSc2ReplayStats={async (authKey) =>
                   Guy.exportReplaysToSc2ReplayStats({
                     replayIds: this.getSelectedReplayIds(),
+                    authKey: authKey,
                   })
                 }
               />
