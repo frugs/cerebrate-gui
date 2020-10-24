@@ -243,6 +243,11 @@ export class FindReplays extends React.Component {
                     replayIds: this.getSelectedReplayIds(),
                   })
                 }
+                exportSelectedReplaysToSc2ReplayStats={async () =>
+                  Guy.exportReplaysToSc2ReplayStats({
+                    replayIds: this.getSelectedReplayIds(),
+                  })
+                }
               />
             </div>
           </div>

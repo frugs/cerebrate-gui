@@ -249,6 +249,9 @@ export const Guy = {
   exportReplaysToScelight: (...args) =>
     ((self && self.exportReplaysToScelight) || debugFunc)(...args),
 
+  exportReplaysToSc2ReplayStats: (...args) =>
+    ((self && self.exportReplaysToSc2ReplayStats) || debugFunc)(...args),
+
   openDirInFileManager: (...args) =>
     ((self && self.openDirInFileManager) || debugFunc)(...args),
 

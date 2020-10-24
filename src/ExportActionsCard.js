@@ -174,6 +174,29 @@ function ExportOptionFragment(props) {
           </Button>
         </Fragment>
       );
+    case "sc2replaystats":
+      const { exportSelectedReplaysToSc2ReplayStats } = other;
+      return (
+        <Button
+          fill={true}
+          icon={IconNames.EXPORT}
+          intent={Intent.PRIMARY}
+          loading={loading}
+          disabled={disabled}
+          onClick={async () => {
+            setLoading(true);
+
+            await Promise.all([
+              exportSelectedReplaysToSc2ReplayStats(),
+              AsyncUtils.sleep(200),
+            ]);
+
+            setLoading(false);
+          }}
+        >
+          Export
+        </Button>
+      );
     default:
       return null;
   }
@@ -205,6 +228,7 @@ export class ExportActionsCard extends React.Component {
       exportReplaysToTemporaryDirectory,
       exportReplaysToTargetDirectory,
       exportSelectedReplaysToScelight,
+      exportSelectedReplaysToSc2ReplayStats,
     } = this.props;
 
     return (
@@ -226,7 +250,6 @@ export class ExportActionsCard extends React.Component {
               {
                 label: "Sc2ReplayStats",
                 value: "sc2replaystats",
-                disabled: true,
               },
             ]}
             onChange={(event) =>
@@ -253,6 +276,9 @@ export class ExportActionsCard extends React.Component {
           exportReplaysToTemporaryDirectory={exportReplaysToTemporaryDirectory}
           exportReplaysToTargetDirectory={exportReplaysToTargetDirectory}
           exportSelectedReplaysToScelight={exportSelectedReplaysToScelight}
+          exportSelectedReplaysToSc2ReplayStats={
+            exportSelectedReplaysToSc2ReplayStats
+          }
         />
       </Card>
     );
