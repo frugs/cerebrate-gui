@@ -203,7 +203,7 @@ function ExportOptionFragment(props) {
               disabled={loading}
               fill={true}
               value={sc2ReplayStatsAuthKey ? sc2ReplayStatsAuthKey : ""}
-              leftElement={<Icon icon={IconNames.APPLICATION} />}
+              leftElement={<Icon icon={IconNames.KEY} />}
               rightElement={
                 <Button
                   disabled={loading}
