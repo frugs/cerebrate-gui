@@ -163,11 +163,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Card
-          interactive={true}
-          elevation={Elevation.TWO}
-          className={"App-card"}
-        >
+        <Card elevation={Elevation.TWO} className={"App-card"}>
           <CerebrateNavbar />
           <div className={"App-break"}>
             <br />

@@ -105,6 +105,9 @@ function ExportOptionFragment(props) {
     sc2ReplayStatsExportedReplays,
     setSc2ReplayStatsExportedReplays,
   ] = useState([]);
+  const [showSc2ReplayStatsAuthKey, setShowSc2ReplayStatsAuthKey] = useState(
+    false
+  );
 
   switch (exportTarget) {
     case "tempDir":
@@ -200,17 +203,32 @@ function ExportOptionFragment(props) {
         <Fragment>
           <FormGroup label="Sc2ReplayStats API Key">
             <InputGroup
+              type={showSc2ReplayStatsAuthKey ? "text" : "password"}
               disabled={loading}
               fill={true}
               value={sc2ReplayStatsAuthKey ? sc2ReplayStatsAuthKey : ""}
               leftElement={<Icon icon={IconNames.KEY} />}
               rightElement={
-                <Button
-                  disabled={loading}
-                  icon={IconNames.HELP}
-                  title={"Show help"}
-                  onClick={() => setSc2ReplayStatsHelpOverlayOpen(true)}
-                />
+                <Fragment>
+                  <Button
+                    disabled={loading}
+                    icon={showSc2ReplayStatsAuthKey ? "unlock" : "lock"}
+                    intent={Intent.WARNING}
+                    minimal={true}
+                    onClick={() =>
+                      setShowSc2ReplayStatsAuthKey(!showSc2ReplayStatsAuthKey)
+                    }
+                    title={`${
+                      showSc2ReplayStatsAuthKey ? "Hide" : "Show"
+                    } API Key`}
+                  />
+                  <Button
+                    disabled={loading}
+                    icon={IconNames.HELP}
+                    title={"Show help"}
+                    onClick={() => setSc2ReplayStatsHelpOverlayOpen(true)}
+                  />
+                </Fragment>
               }
               onChange={(event) =>
                 setSc2ReplayStatsAuthKey(event.currentTarget.value)
@@ -282,9 +300,9 @@ function ExportOptionFragment(props) {
               <H5>How to find your Sc2ReplayStats API Key</H5>
               <UL>
                 <li>
-                  Open
+                  Sign in to{" "}
                   <a
-                    href="https://sc2replaystats.com"
+                    href="https://sc2replaystats.com/Account/signin"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -292,11 +310,9 @@ function ExportOptionFragment(props) {
                   </a>
                 </li>
                 <li>
-                  Open the menu and navigate through to{" "}
-                  <Tag large={true}>My Account</Tag>
-                  &nbsp;
-                  <Icon icon={IconNames.ARROW_RIGHT} />
-                  &nbsp;
+                  In the navigation bar, navigate through to{" "}
+                  <Tag large={true}>My Account</Tag>{" "}
+                  <Icon icon={IconNames.ARROW_RIGHT} />{" "}
                   <Tag large={true}>Settings</Tag>
                 </li>
                 <li>
@@ -341,6 +357,7 @@ export class ExportActionsCard extends React.Component {
   async componentDidMount() {
     this.setState({
       scelightPath: await Guy.getScelightPath(),
+      sc2ReplayStatsAuthKey: await Guy.getSc2ReplayStatsAuthKey(),
     });
   }
 

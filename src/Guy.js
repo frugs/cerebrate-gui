@@ -231,6 +231,12 @@ const selectScelightPathDebugFunc = async (...args) => {
   return "path/to/scelight";
 };
 
+const getSc2ReplayStatsAuthKeyDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  return "some_api_key";
+};
+
 export const Guy = {
   selectReplay: (...args) =>
     ((self && self.selectReplay) || selectReplayDebugFunc)(...args),
@@ -281,6 +287,12 @@ export const Guy = {
 
   selectScelightPath: (...args) =>
     ((self && self.selectScelightPath) || selectScelightPathDebugFunc)(...args),
+
+  getSc2ReplayStatsAuthKey: (...args) =>
+    (
+      (self && self.getSc2ReplayStatsAuthKey) ||
+      getSc2ReplayStatsAuthKeyDebugFunc
+    )(...args),
 
   onReplayLoadedListeners: [],
   onReplayUpdatedListeners: [],
