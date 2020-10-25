@@ -201,6 +201,23 @@ const exportReplaysToDirDebugFunc = async (...args) => {
   return "path/to/directory";
 };
 
+const exportReplaysToSc2ReplayStatsDebugFunc = async (...args) => {
+  debugFunc(args);
+
+  if (args.length < 1) {
+    return;
+  }
+
+  const { replayIds } = args[0];
+
+  return replayIds.map((replayId) => ({
+    replayId: replayId,
+    exportUrl:
+      "https://sc2replaystats.com/replay/" +
+      Math.floor(Math.random() * 10000000),
+  }));
+};
+
 const getScelightPathDebugFunc = async (...args) => {
   debugFunc(args);
 
@@ -250,7 +267,10 @@ export const Guy = {
     ((self && self.exportReplaysToScelight) || debugFunc)(...args),
 
   exportReplaysToSc2ReplayStats: (...args) =>
-    ((self && self.exportReplaysToSc2ReplayStats) || debugFunc)(...args),
+    (
+      (self && self.exportReplaysToSc2ReplayStats) ||
+      exportReplaysToSc2ReplayStatsDebugFunc
+    )(...args),
 
   openDirInFileManager: (...args) =>
     ((self && self.openDirInFileManager) || debugFunc)(...args),

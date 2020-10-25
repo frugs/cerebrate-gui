@@ -99,6 +99,10 @@ function ExportOptionFragment(props) {
     sc2ReplayStatsHelpOverlayOpen,
     setSc2ReplayStatsHelpOverlayOpen,
   ] = useState(false);
+  const [
+    sc2ReplayStatsExportedReplays,
+    setSc2ReplayStatsExportedReplays,
+  ] = useState([]);
 
   switch (exportTarget) {
     case "tempDir":
@@ -219,16 +223,33 @@ function ExportOptionFragment(props) {
             onClick={async () => {
               setLoading(true);
 
-              await Promise.all([
+              const [exportedReplays] = await Promise.all([
                 exportSelectedReplaysToSc2ReplayStats(sc2ReplayStatsAuthKey),
                 AsyncUtils.sleep(200),
               ]);
+
+              setSc2ReplayStatsExportedReplays(exportedReplays);
 
               setLoading(false);
             }}
           >
             Export
           </Button>
+          {sc2ReplayStatsExportedReplays.length === 0 ? null : (
+            <UL>
+              {sc2ReplayStatsExportedReplays.map((replay) => (
+                <li>
+                  <a
+                    href={replay.exportUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {replay.replayId.substring(0, 8)} - {replay.exportUrl}
+                  </a>
+                </li>
+              ))}
+            </UL>
+          )}
           <Overlay isOpen={sc2ReplayStatsHelpOverlayOpen}>
             <Card
               className={"ExportActionsCard-sc2replaystats-help-overlay-card"}
@@ -237,7 +258,14 @@ function ExportOptionFragment(props) {
               <H5>How to find your Sc2ReplayStats API Key</H5>
               <UL>
                 <li>
-                  Open <a href={"https://sc2replaystats.com"}>Sc2ReplayStats</a>
+                  Open
+                  <a
+                    href="https://sc2replaystats.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Sc2ReplayStats
+                  </a>
                 </li>
                 <li>
                   Open the menu and navigate through to{" "}
@@ -257,7 +285,7 @@ function ExportOptionFragment(props) {
                   Click the <Tag large={true}>Generate New API Key</Tag> button.
                 </li>
                 <li>
-                  Copy your Sc2ReplayStats API Key and paste it into Cerebrate.
+                  Copy your authorization key and paste it into Cerebrate.
                 </li>
               </UL>
               <div className={Classes.DIALOG_FOOTER_ACTIONS}>
