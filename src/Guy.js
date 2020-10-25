@@ -212,6 +212,7 @@ const exportReplaysToSc2ReplayStatsDebugFunc = async (...args) => {
 
   return replayIds.map((replayId) => ({
     replayId: replayId,
+    teams: ["BobTheZealot", "JimRaynor"],
     exportUrl:
       "https://sc2replaystats.com/replay/" +
       Math.floor(Math.random() * 10000000),

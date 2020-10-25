@@ -12,6 +12,8 @@ import {
   Classes,
   Tag,
   UL,
+  Menu,
+  MenuItem,
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { AsyncUtils } from "./AsyncUtils";
@@ -236,19 +238,40 @@ function ExportOptionFragment(props) {
             Export
           </Button>
           {sc2ReplayStatsExportedReplays.length === 0 ? null : (
-            <UL>
+            <Menu className={"ExportActionsCard-sc2replaystats-export-list"}>
               {sc2ReplayStatsExportedReplays.map((replay) => (
-                <li>
-                  <a
-                    href={replay.exportUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {replay.replayId.substring(0, 8)} - {replay.exportUrl}
-                  </a>
-                </li>
+                <MenuItem
+                  text={
+                    <div
+                      className={
+                        "ExportActionsCard-sc2replaystats-export-list-item"
+                      }
+                    >
+                      <div>
+                        <span
+                          className={
+                            "ExportActionsCard-sc2replaystats-export-list-replay-id"
+                          }
+                        >
+                          {replay.replayId.substring(0, 8)}
+                        </span>
+                        &nbsp;
+                        <span>{replay.teams.join(" vs ")}</span>
+                      </div>
+                      <div>
+                        <a
+                          href={replay.exportUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {replay.exportUrl}
+                        </a>
+                      </div>
+                    </div>
+                  }
+                />
               ))}
-            </UL>
+            </Menu>
           )}
           <Overlay isOpen={sc2ReplayStatsHelpOverlayOpen}>
             <Card

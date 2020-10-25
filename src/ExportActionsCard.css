@@ -4,3 +4,15 @@
   margin: 10vh;
   top: 0;
 }
+
+.ExportActionsCard-sc2replaystats-export-list {
+  margin: 0.5em 0;
+}
+
+.ExportActionsCard-sc2replaystats-export-list-item {
+  padding: 0 0.5em;
+}
+
+.ExportActionsCard-sc2replaystats-export-list-replay-id {
+  font-family: monospace;
+}
