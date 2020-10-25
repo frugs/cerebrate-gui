@@ -206,6 +206,7 @@ function ExportOptionFragment(props) {
               leftElement={<Icon icon={IconNames.APPLICATION} />}
               rightElement={
                 <Button
+                  disabled={loading}
                   icon={IconNames.HELP}
                   title={"Show help"}
                   onClick={() => setSc2ReplayStatsHelpOverlayOpen(true)}
