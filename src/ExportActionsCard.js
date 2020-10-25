@@ -1,19 +1,19 @@
 import {
   Button,
   Card,
+  Classes,
+  Elevation,
   FormGroup,
   H5,
   HTMLSelect,
   Icon,
   InputGroup,
   Intent,
-  Overlay,
-  Elevation,
-  Classes,
-  Tag,
-  UL,
   Menu,
   MenuItem,
+  Overlay,
+  Tag,
+  UL,
 } from "@blueprintjs/core";
 import { IconNames } from "@blueprintjs/icons";
 import { AsyncUtils } from "./AsyncUtils";
