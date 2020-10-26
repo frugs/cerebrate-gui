@@ -242,6 +242,11 @@ export const generateTagTreeContents = (replays, tagFrequencyTable) => [
         <strong>Replay results</strong>
       </div>
     ),
+    secondaryLabel: (
+      <span className={"ReplayTagTree-tree-node-secondary-label"}>
+        <em>{"Replay(s): " + replays.length}</em>
+      </span>
+    ),
     isExpanded: true,
     childNodes: generateTagOrRootChildNodes([], replays, tagFrequencyTable),
   },
