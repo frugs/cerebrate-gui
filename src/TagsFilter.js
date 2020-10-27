@@ -1,4 +1,4 @@
-import { Card, ControlGroup, FormGroup, H5, Intent } from "@blueprintjs/core";
+import { Card, ControlGroup, FormGroup, Intent } from "@blueprintjs/core";
 import SelectTagsInput from "./SelectTagsInput";
 import React from "react";
 
