@@ -7,7 +7,7 @@ export function TagsFilter(props) {
 
   return (
     <Card className={`ReplayFilterAndSort-container ${className}`}>
-      <H5 className={"ReplayFilterAndSort-control-group-heading"}>{title}</H5>
+      {title}
       <ControlGroup fill={true} vertical={false}>
         <FormGroup
           label="Player tags"

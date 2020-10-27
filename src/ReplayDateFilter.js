@@ -1,8 +1,9 @@
-import { Card, FormGroup, H5, Switch } from "@blueprintjs/core";
+import { Card, FormGroup, H5, Icon, Switch } from "@blueprintjs/core";
+import { DateRangePicker, TimePrecision } from "@blueprintjs/datetime";
+import { IconNames } from "@blueprintjs/icons";
 import React, { useState } from "react";
 
 import "./ReplayDateFilter.css";
-import { DateRangePicker, TimePrecision } from "@blueprintjs/datetime";
 
 export function ReplayDateFilter(props) {
   const {
@@ -19,7 +20,7 @@ export function ReplayDateFilter(props) {
     <div>
       <Card className={"ReplayFilterAndSort-container"}>
         <H5 className={"ReplayFilterAndSort-control-group-heading"}>
-          Replay date
+          <Icon icon={IconNames.CALENDAR} /> Replay date
         </H5>
         <FormGroup
           label="Filter by replay date"

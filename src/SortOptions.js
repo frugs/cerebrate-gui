@@ -4,9 +4,11 @@ import {
   FormGroup,
   H5,
   HTMLSelect,
+  Icon,
   Switch,
 } from "@blueprintjs/core";
 import React from "react";
+import { IconNames } from "@blueprintjs/icons";
 
 function SortFormGroup(props) {
   const {
@@ -43,7 +45,9 @@ export function SortOptions(props) {
 
   return (
     <Card className={"ReplayFilterAndSort-container"}>
-      <H5 className={"ReplayFilterAndSort-control-group-heading"}>Sorting</H5>
+      <H5 className={"ReplayFilterAndSort-control-group-heading"}>
+        <Icon icon={IconNames.SORT} /> Sorting
+      </H5>
       <ControlGroup fill={true} vertical={false}>
         <SortFormGroup
           formGroupLabel={"Sort replays by"}
