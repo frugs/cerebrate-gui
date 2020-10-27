@@ -2,7 +2,7 @@ import {
   Button,
   Card,
   Classes,
-  Elevation,
+  Dialog,
   FormGroup,
   H5,
   HTMLSelect,
@@ -11,7 +11,6 @@ import {
   Intent,
   Menu,
   MenuItem,
-  Overlay,
   Tag,
   UL,
 } from "@blueprintjs/core";
@@ -292,49 +291,47 @@ function ExportOptionFragment(props) {
               ))}
             </Menu>
           )}
-          <Overlay isOpen={sc2ReplayStatsHelpOverlayOpen}>
-            <Card
-              className={"ExportActionsCard-sc2replaystats-help-overlay-card"}
-              elevation={Elevation.FOUR}
-            >
-              <H5>How to find your Sc2ReplayStats API Key</H5>
-              <UL>
-                <li>
-                  Sign in to{" "}
-                  <a
-                    href="https://sc2replaystats.com/Account/signin"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Sc2ReplayStats
-                  </a>
-                </li>
-                <li>
-                  In the navigation bar, navigate through to{" "}
-                  <Tag large={true}>My Account</Tag>{" "}
-                  <Icon icon={IconNames.ARROW_RIGHT} />{" "}
-                  <Tag large={true}>Settings</Tag>
-                </li>
-                <li>
-                  Click <Tag large={true}>API Access</Tag> in the side menu.
-                </li>
-                <li>
-                  <Tag round={true} minimal={true}>
-                    <em>Optional&nbsp;</em>
-                  </Tag>{" "}
-                  Click the <Tag large={true}>Generate New API Key</Tag> button.
-                </li>
-                <li>
-                  Copy your authorization key and paste it into Cerebrate.
-                </li>
-              </UL>
+          <Dialog
+            title={"How to find your Sc2ReplayStats API Key"}
+            isOpen={sc2ReplayStatsHelpOverlayOpen}
+            onClose={() => setSc2ReplayStatsHelpOverlayOpen(false)}
+          >
+            <UL>
+              <li>
+                Sign in to{" "}
+                <a
+                  href="https://sc2replaystats.com/Account/signin"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Sc2ReplayStats
+                </a>
+              </li>
+              <li>
+                In the navigation bar, navigate through to{" "}
+                <Tag large={true}>My Account</Tag>{" "}
+                <Icon icon={IconNames.ARROW_RIGHT} />{" "}
+                <Tag large={true}>Settings</Tag>
+              </li>
+              <li>
+                Click <Tag large={true}>API Access</Tag> in the side menu.
+              </li>
+              <li>
+                <Tag round={true} minimal={true}>
+                  <em>Optional&nbsp;</em>
+                </Tag>{" "}
+                Click the <Tag large={true}>Generate New API Key</Tag> button.
+              </li>
+              <li>Copy your authorization key and paste it into Cerebrate.</li>
+            </UL>
+            <div className={Classes.DIALOG_FOOTER}>
               <div className={Classes.DIALOG_FOOTER_ACTIONS}>
                 <Button onClick={() => setSc2ReplayStatsHelpOverlayOpen(false)}>
                   Close
                 </Button>
               </div>
-            </Card>
-          </Overlay>
+            </div>
+          </Dialog>
         </Fragment>
       );
     default:
