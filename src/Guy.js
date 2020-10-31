@@ -282,6 +282,12 @@ export const Guy = {
   openDirInFileManager: (...args) =>
     ((self && self.openDirInFileManager) || debugFunc)(...args),
 
+  insertMultipleReplays: (...args) =>
+    ((self && self.insertMultipleReplays) || debugFunc)(...args),
+
+  regenerateSavedReplayInfo: (...args) =>
+    ((self && self.regenerateSavedReplayInfo) || debugFunc)(...args),
+
   getScelightPath: (...args) =>
     ((self && self.getScelightPath) || getScelightPathDebugFunc)(...args),
 

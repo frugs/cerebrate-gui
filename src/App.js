@@ -6,6 +6,7 @@ import { CerebrateNavbar } from "./CerebrateNavbar";
 import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import { FindReplays } from "./FindReplays";
 import { concatExampleTags } from "./ExampleTags";
+import { ToolsMenu } from "./ToolsMenu";
 
 class App extends React.Component {
   constructor(props) {
@@ -185,6 +186,8 @@ class App extends React.Component {
               title="Find Replays"
               panel={<FindReplays {...this.state} />}
             />
+            <Tabs.Expander />
+            <ToolsMenu />
           </Tabs>
         </Card>
       </div>
