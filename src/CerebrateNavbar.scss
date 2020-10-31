@@ -9,15 +9,19 @@
   border-radius: 4px;
   font-size: 3em;
   line-height: 1.1em;
-  font-family: "Rationale", sans-serif;
+  font-family: "Rationale", "M PLUS Rounded 1c", sans-serif;
   margin-top: 0.5em;
   padding: 10px 10px 0;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
+.CerebrateNavbar-logo rt {
+  font-size: 0.3em;
+}
+
 .CerebrateNavbar-logo-subtitle {
-  font-family: "Philosopher", sans-serif;
+  font-family: "Philosopher", "M PLUS Rounded 1c", sans-serif;
   margin: 0 5px;
   font-size: 0.8em;
 }

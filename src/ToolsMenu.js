@@ -12,7 +12,8 @@ import { IconNames } from "@blueprintjs/icons";
 import React from "react";
 import { Guy } from "./Guy";
 
-export function ToolsMenu() {
+export function ToolsMenu(props) {
+  const { t } = props;
   return (
     <Popover
       className={Classes.TAB}
@@ -22,14 +23,13 @@ export function ToolsMenu() {
           <MenuItem
             icon={IconNames.INSERT}
             text={"Add multiple replays"}
-            intent={Intent.PRIMARY}
             onClick={async () => {
               await Guy.insertMultipleReplays();
             }}
           />
           <MenuItem
             icon={IconNames.REFRESH}
-            text={"Re-apply automatic replay tags"}
+            text={"Re-apply automatic tags to all replays"}
             onClick={async () => {
               await Guy.regenerateSavedReplayInfo();
             }}
@@ -39,7 +39,7 @@ export function ToolsMenu() {
       position={Position.BOTTOM}
     >
       <div>
-        Tools <Icon icon={IconNames.CHEVRON_DOWN} />
+        {t("toolsMenuLabel")} <Icon icon={IconNames.CHEVRON_DOWN} />
       </div>
     </Popover>
   );

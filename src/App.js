@@ -7,8 +7,9 @@ import { Card, Elevation, Tab, Tabs } from "@blueprintjs/core";
 import { FindReplays } from "./FindReplays";
 import { concatExampleTags } from "./ExampleTags";
 import { ToolsMenu } from "./ToolsMenu";
+import { withTranslation } from "react-i18next";
 
-class App extends React.Component {
+class AppComponent extends React.Component {
   constructor(props) {
     super(props);
 
@@ -162,10 +163,12 @@ class App extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
+
     return (
       <div className="App">
         <Card elevation={Elevation.TWO} className={"App-card"}>
-          <CerebrateNavbar />
+          <CerebrateNavbar t={t} />
           <div className={"App-break"}>
             <br />
           </div>
@@ -178,16 +181,16 @@ class App extends React.Component {
           >
             <Tab
               id="form"
-              title="Replay Details"
-              panel={<SubmitReplayForm {...this.state} />}
+              title={t("replayDetailsTabTitle")}
+              panel={<SubmitReplayForm {...this.state} t={t} />}
             />
             <Tab
               id="search"
-              title="Find Replays"
-              panel={<FindReplays {...this.state} />}
+              title={t("findReplaysTabTitle")}
+              panel={<FindReplays {...this.state} t={t} />}
             />
             <Tabs.Expander />
-            <ToolsMenu />
+            <ToolsMenu t={t} />
           </Tabs>
         </Card>
       </div>
@@ -195,4 +198,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export const App = withTranslation()(AppComponent);
