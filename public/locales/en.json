@@ -3,5 +3,7 @@
   "findReplaysTabTitle": "Find Replays",
   "logoRuby": "",
   "logoSubtitle": "A StarCraft II Replay Manager",
+  "toolsMenuItemAddMultiple": "Add multiple replays",
+  "toolsMenuItemRegenerateTags": "Re-apply automatic tags to all replays",
   "toolsMenuLabel": "Tools"
 }

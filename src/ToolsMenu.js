@@ -1,7 +1,6 @@
 import {
   Classes,
   Icon,
-  Intent,
   Menu,
   MenuItem,
   Popover,
@@ -22,14 +21,14 @@ export function ToolsMenu(props) {
         <Menu>
           <MenuItem
             icon={IconNames.INSERT}
-            text={"Add multiple replays"}
+            text={t("toolsMenuItemAddMultiple")}
             onClick={async () => {
               await Guy.insertMultipleReplays();
             }}
           />
           <MenuItem
             icon={IconNames.REFRESH}
-            text={"Re-apply automatic tags to all replays"}
+            text={t("toolsMenuItemRegenerateTags")}
             onClick={async () => {
               await Guy.regenerateSavedReplayInfo();
             }}

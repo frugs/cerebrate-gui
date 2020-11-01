@@ -3,5 +3,7 @@
   "findReplaysTabTitle": "リプレイを検索",
   "logoRuby": "セレブレート",
   "logoSubtitle": "StarCraft II リプレイ用タグ付け・タグ管理ソフト",
+  "toolsMenuItemAddMultiple": "複数のリプレイを追加",
+  "toolsMenuItemRegenerateTags": "自動タグ付を再実行",
   "toolsMenuLabel": "ツール"
 }
