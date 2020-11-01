@@ -88,7 +88,7 @@ export class FindReplays extends React.Component {
   };
 
   render() {
-    const { setNavbarTabId } = this.props;
+    const { t, setNavbarTabId } = this.props;
 
     return (
       <div>
@@ -136,7 +136,7 @@ export class FindReplays extends React.Component {
             }}
             icon={IconNames.SEARCH}
           >
-            Find replays
+            {t("findReplaysFindReplaysButton")}
           </Button>
         </div>
         {this.state.resultsCounter === 0 ? null : (
@@ -154,7 +154,7 @@ export class FindReplays extends React.Component {
             />
             <div className={"FindReplays-result-options-container"}>
               <Card className={"FindReplays-result-options-card"}>
-                <H5>Replay actions</H5>
+                <H5>{t("findReplaysReplayActionsHeading")}</H5>
                 <Button
                   fill={true}
                   icon={IconNames.DOCUMENT}
@@ -180,7 +180,7 @@ export class FindReplays extends React.Component {
                     setNavbarTabId("form");
                   }}
                 >
-                  View details
+                  {t("findReplaysViewDetailsButton")}
                 </Button>
                 <Button
                   fill={true}
@@ -193,12 +193,12 @@ export class FindReplays extends React.Component {
                     this.setState({ isConfirmForgetAlertOpen: true });
                   }}
                 >
-                  Forget replay(s)
+                  {t("findReplaysForgetReplaysButton")}
                 </Button>
                 <Alert
                   isOpen={this.state.isConfirmForgetAlertOpen}
-                  cancelButtonText={"Cancel"}
-                  confirmButtonText={"Forget replay(s)"}
+                  cancelButtonText={t("findReplaysCancelForgetReplaysButton")}
+                  confirmButtonText={t("findReplaysConfirmForgetReplaysButton")}
                   canOutsideClickCancel={true}
                   onCancel={() =>
                     this.setState({ isConfirmForgetAlertOpen: false })
@@ -215,8 +215,7 @@ export class FindReplays extends React.Component {
                   intent={Intent.WARNING}
                   icon={IconNames.WARNING_SIGN}
                 >
-                  Are you sure you want to forget these replays? This will cause
-                  any tags you might have added to be permanently lost.
+                  {t("findReplaysForgetReplaysWarningText")}
                 </Alert>
               </Card>
               <ExportActionsCard
