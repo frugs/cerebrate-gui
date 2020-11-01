@@ -6,6 +6,7 @@ import { TagUtils } from "./TagUtils";
 
 function SelectTagsInput(props) {
   const {
+    t,
     fill,
     disabled,
     tagIntent,
@@ -72,7 +73,7 @@ function SelectTagsInput(props) {
       }}
       openOnKeyDown={true}
       fill={fill}
-      placeholder={"Tags..."}
+      placeholder={t("submitReplayFormTagsPlaceholderText")}
       {...other}
     />
   );

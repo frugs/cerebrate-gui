@@ -73,20 +73,25 @@ class SelectPlayerAndOpponentInput extends React.Component {
   }
 
   render() {
-    let { formDisabled, teams, playerTeam, opponentTeam } = this.props;
+    let { t, formDisabled, teams, playerTeam, opponentTeam } = this.props;
     return (
       <div className={"SelectPlayerAndOpponentInput-container"}>
         <FormGroup
           className={
             "SelectPlayerAndOpponentInput-form-group SelectPlayerAndOpponentInput-form-group-player"
           }
-          label={"Player"}
+          label={t("submitReplayFormPlayerTeamLabel")}
         >
           <HTMLSelect
             disabled={formDisabled}
             fill={true}
             iconProps={{ intent: Intent.SUCCESS }}
-            options={[{ label: "Choose player...", value: "-1" }].concat(
+            options={[
+              {
+                label: t("submitReplayFormChoosePlayerOptionLabel"),
+                value: "-1",
+              },
+            ].concat(
               teams.map((team, index) => {
                 return { label: team, value: index.toString() };
               })
@@ -97,13 +102,18 @@ class SelectPlayerAndOpponentInput extends React.Component {
         </FormGroup>
         <FormGroup
           className={"SelectPlayerAndOpponentInput-form-group"}
-          label={"Opponent"}
+          label={t("submitReplayFormOpponentTeamLabel")}
         >
           <HTMLSelect
             disabled={formDisabled}
             fill={true}
             iconProps={{ intent: Intent.DANGER }}
-            options={[{ label: "Choose opponent...", value: "-1" }].concat(
+            options={[
+              {
+                label: t("submitReplayFormChooseOpponentOptionLabel"),
+                value: "-1",
+              },
+            ].concat(
               teams.map((team, index) => {
                 return { label: team, value: index.toString() };
               })

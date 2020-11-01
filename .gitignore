@@ -14,6 +14,9 @@
 # dev env
 /.idea
 
+# localisation
+/**/*_old.json
+
 # misc
 .DS_Store
 .env.local

@@ -6,8 +6,6 @@ import { Guy } from "./Guy";
 
 import "./ReplaySelector.css";
 
-const REPLAY_FILE_PLACEHOLDER_TEXT = "Choose replay file...";
-
 const getFilename = (path) => path.split("\\").pop().split("/").pop();
 
 class ReplaySelector extends React.Component {
@@ -22,6 +20,7 @@ class ReplaySelector extends React.Component {
 
   render() {
     const {
+      t,
       replayFileName,
       setReplayId,
       setReplayFileName,
@@ -33,8 +32,9 @@ class ReplaySelector extends React.Component {
     return (
       <div className={"ReplaySelector-container"}>
         <FileInput
+          buttonText={t("submitFormChooseReplayBrowseButtonLabel")}
           disabled={this.state.disabled}
-          text={replayFileName || REPLAY_FILE_PLACEHOLDER_TEXT}
+          text={replayFileName || t("submitFormChooseReplayLabel")}
           onInputChange={(event) => {
             const path = event.target.value;
             if (!path || !event.target.files) {
@@ -72,7 +72,7 @@ class ReplaySelector extends React.Component {
         />
         <Button
           className={"ReplaySelector-button"}
-          text={"Most recent replay"}
+          text={t("submitReplayFormSelectMostRecentReplayButton")}
           onClick={(event) => {
             resetAndDisableForm();
             Guy.selectMostRecentReplay();

@@ -26,6 +26,7 @@ export function SubmitReplayForm(props) {
     ...other
   } = props;
   const {
+    t,
     replayId,
     formDisabled,
     playerTeam,
@@ -36,15 +37,15 @@ export function SubmitReplayForm(props) {
   return (
     <div>
       <br />
-      <FormGroup label="Replay ID">
+      <FormGroup label={t("submitFormReplayIdLabel")}>
         <InputGroup disabled={true} fill={true} value={replayId} />
       </FormGroup>
       <FormGroup
-        label="Replay file"
+        label={t("submitReplayFormReplayFileLabel")}
         intent={failedToLoadReplay ? Intent.DANGER : null}
         helperText={
           failedToLoadReplay
-            ? "Failed to load replay, please select another or try again."
+            ? t("submitReplayFormLoadReplayFailedHelperText")
             : null
         }
       >
@@ -52,7 +53,7 @@ export function SubmitReplayForm(props) {
       </FormGroup>
       <ReplayDateFormGroup {...other} />
       <SelectPlayerAndOpponentInput {...other} />
-      <FormGroup label="Player tags">
+      <FormGroup label={t("submitReplayFormPlayerTagsLabel")}>
         <SelectTagsInput
           {...other}
           fill={true}
@@ -63,7 +64,7 @@ export function SubmitReplayForm(props) {
           tagIntent={Intent.SUCCESS}
         />
       </FormGroup>
-      <FormGroup label="Opponent tags">
+      <FormGroup label={t("submitReplayFormOpponentTagsLabel")}>
         <SelectTagsInput
           {...other}
           fill={true}
@@ -74,7 +75,7 @@ export function SubmitReplayForm(props) {
           tagIntent={Intent.DANGER}
         />
       </FormGroup>
-      <FormGroup label="Game tags">
+      <FormGroup label={t("submitReplayGameTagsLabel")}>
         <SelectTagsInput
           {...other}
           fill={true}
@@ -85,7 +86,7 @@ export function SubmitReplayForm(props) {
           tagIntent={Intent.PRIMARY}
         />
       </FormGroup>
-      <FormGroup label="Notes">
+      <FormGroup label={t("submitReplayFormNotesLabel")}>
         <TextArea
           fill={true}
           disabled={formDisabled}
@@ -97,7 +98,7 @@ export function SubmitReplayForm(props) {
         intent={failedToTagReplay ? Intent.DANGER : null}
         helperText={
           failedToTagReplay
-            ? "Failed to save tags, please select another replay or try again."
+            ? t("submitReplayFormSubmitReplayFailedHelperText")
             : null
         }
       >
@@ -111,7 +112,7 @@ export function SubmitReplayForm(props) {
           onClick={updateReplayInfo}
           icon={IconNames.TAG}
         >
-          Save tags
+          {t("submitReplayFormSubmitReplayButton")}
         </Button>
       </FormGroup>
     </div>
