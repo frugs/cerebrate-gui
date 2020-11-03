@@ -4,13 +4,14 @@ import React from "react";
 
 export function TagsFilter(props) {
   const { className, selectedTags, onTagsSelected, title, ...other } = props;
+  const { t } = other;
 
   return (
     <Card className={`ReplayFilterAndSort-container ${className}`}>
       {title}
       <ControlGroup fill={true} vertical={false}>
         <FormGroup
-          label="Player tags"
+          label={t("findReplaysTagFilterPlayerTagsLabel")}
           className={"ReplayFilterAndSort-select-tags-form-group"}
         >
           <SelectTagsInput
@@ -23,7 +24,7 @@ export function TagsFilter(props) {
           />
         </FormGroup>
         <FormGroup
-          label="Opponent tags"
+          label={t("findReplaysTagFilterOpponentTagsLabel")}
           className={"ReplayFilterAndSort-select-tags-form-group"}
         >
           <SelectTagsInput
@@ -36,7 +37,7 @@ export function TagsFilter(props) {
           />
         </FormGroup>
         <FormGroup
-          label="Game tags"
+          label={t("findReplaysTagFilterGameTagsLabel")}
           className={"ReplayFilterAndSort-select-tags-form-group"}
         >
           <SelectTagsInput

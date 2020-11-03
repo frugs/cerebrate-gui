@@ -16,6 +16,8 @@ export function ReplayFilterAndSort(props) {
     ...other
   } = props;
 
+  const { t } = other;
+
   return (
     <div>
       <ReplayDateFilter {...other} />
@@ -24,7 +26,8 @@ export function ReplayFilterAndSort(props) {
         className={"ReplayFilterAndSort-container-include-tags"}
         title={
           <H5 className={"ReplayFilterAndSort-control-group-heading"}>
-            <Icon icon={IconNames.FILTER_KEEP} /> Include tags
+            <Icon icon={IconNames.FILTER_KEEP} />{" "}
+            {t("findReplaysTagFilterIncludeTagsHeading")}
           </H5>
         }
         selectedTags={includeTags}
@@ -35,7 +38,8 @@ export function ReplayFilterAndSort(props) {
         className={"ReplayFilterAndSort-container-exclude-tags"}
         title={
           <H5 className={"ReplayFilterAndSort-control-group-heading"}>
-            <Icon icon={IconNames.FILTER_REMOVE} /> Exclude tags
+            <Icon icon={IconNames.FILTER_REMOVE} />{" "}
+            {t("findReplaysTagFilterExcludeTagsHeading")}
           </H5>
         }
         selectedTags={excludeTags}

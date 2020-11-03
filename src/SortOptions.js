@@ -12,6 +12,7 @@ import { IconNames } from "@blueprintjs/icons";
 
 function SortFormGroup(props) {
   const {
+    t,
     formGroupLabel,
     selectOptions,
     selectValue,
@@ -32,8 +33,8 @@ function SortFormGroup(props) {
       <Switch
         className={"ReplayFilterAndSort-sorting-descending-switch"}
         checked={sortDescending}
-        innerLabel="Ascending"
-        innerLabelChecked="Descending"
+        innerLabel={t("sortAscending")}
+        innerLabelChecked={t("sortDescending")}
         onChange={(event) => setSortDescending(event.currentTarget.checked)}
       />
     </FormGroup>
@@ -41,24 +42,30 @@ function SortFormGroup(props) {
 }
 
 export function SortOptions(props) {
-  const { sortReplaysDescending, sortTagsDescending } = props;
+  const { t, sortReplaysDescending, sortTagsDescending } = props;
 
   return (
     <Card className={"ReplayFilterAndSort-container"}>
       <H5 className={"ReplayFilterAndSort-control-group-heading"}>
-        <Icon icon={IconNames.SORT} /> Sorting
+        <Icon icon={IconNames.SORT} /> {t("findReplaysSortOptionsHeading")}
       </H5>
       <ControlGroup fill={true} vertical={false}>
         <SortFormGroup
-          formGroupLabel={"Sort replays by"}
-          selectOptions={[{ label: "Replay date", value: "date" }]}
+          t={t}
+          formGroupLabel={t("findReplaysSortReplaysLabel")}
+          selectOptions={[
+            { label: t("sortReplaysByDateOptionLabel"), value: "date" },
+          ]}
           selectValue={"date"}
           sortDescending={sortReplaysDescending}
           setSortDescending={() => {}}
         />
         <SortFormGroup
-          formGroupLabel={"Sort tags by"}
-          selectOptions={[{ label: "Tag frequency", value: "frequency" }]}
+          t={t}
+          formGroupLabel={t("findReplaysSortTagsLabel")}
+          selectOptions={[
+            { label: t("sortTagsByFrequencyOptionLabel"), value: "frequency" },
+          ]}
           selectValue={"frequency"}
           sortDescending={sortTagsDescending}
           setSortDescending={() => {}}
