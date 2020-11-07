@@ -17,9 +17,39 @@ import {
 import { IconNames } from "@blueprintjs/icons";
 import { AsyncUtils } from "./AsyncUtils";
 import React, { Fragment, useState } from "react";
+import { Trans } from "react-i18next";
 
 import "./ExportActionsCard.css";
 import { Guy } from "./Guy";
+
+function Sc2ReplayStats() {
+  return (
+    <a
+      href="https://sc2replaystats.com/Account/signin"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Sc2ReplayStats
+    </a>
+  );
+}
+
+function MyAccountThenSettings() {
+  return (
+    <Fragment>
+      <Tag large={true}>My Account</Tag> <Icon icon={IconNames.ARROW_RIGHT} />{" "}
+      <Tag large={true}>Settings</Tag>
+    </Fragment>
+  );
+}
+
+function ApiAccess() {
+  return <Tag large={true}>API Access</Tag>;
+}
+
+function GenerateApiKey() {
+  return <Tag large={true}>Generate New API Key</Tag>;
+}
 
 function ExportToDirectoryButton(props) {
   const {
@@ -55,10 +85,10 @@ function ExportToDirectoryButton(props) {
 }
 
 function ExportOutputPathFormGroup(props) {
-  const { loading, outputPath } = props;
+  const { t, loading, outputPath } = props;
 
   return outputPath ? (
-    <FormGroup label="Export output directory">
+    <FormGroup label={t("exportDirInputLabel")}>
       <InputGroup
         disabled={loading}
         fill={true}
@@ -69,13 +99,13 @@ function ExportOutputPathFormGroup(props) {
             <Button
               loading={loading}
               icon={IconNames.DUPLICATE}
-              title={"Copy to clipboard"}
+              title={t("copyToClipboardButtonLabel")}
               onClick={() => navigator.clipboard.writeText(outputPath)}
             />
             <Button
               loading={loading}
               icon={IconNames.SHARE}
-              title={"Open in file manager"}
+              title={t("openInFileManagerButtonLabel")}
               onClick={() => Guy.openDirInFileManager({ dirPath: outputPath })}
             />
           </Fragment>
@@ -87,6 +117,7 @@ function ExportOutputPathFormGroup(props) {
 
 function ExportOptionFragment(props) {
   const {
+    t,
     exportTarget,
     disabled,
     loading,
@@ -144,7 +175,7 @@ function ExportOptionFragment(props) {
 
       return (
         <Fragment>
-          <FormGroup label="Choose Scelight installation">
+          <FormGroup label={t("scelightInstallationDirPickerLabel")}>
             <InputGroup
               disabled={loading}
               fill={true}
@@ -154,7 +185,7 @@ function ExportOptionFragment(props) {
                 <Button
                   loading={loading}
                   icon={IconNames.DOCUMENT_OPEN}
-                  title={"Choose location"}
+                  title={t("chooseLocationButtonLabel")}
                   onClick={async () => {
                     setLoading(true);
 
@@ -200,7 +231,7 @@ function ExportOptionFragment(props) {
       } = other;
       return (
         <Fragment>
-          <FormGroup label="Sc2ReplayStats API Key">
+          <FormGroup label={t("sc2ReplayStatsApiKeyLabel")}>
             <InputGroup
               type={showSc2ReplayStatsAuthKey ? "text" : "password"}
               disabled={loading}
@@ -217,14 +248,16 @@ function ExportOptionFragment(props) {
                     onClick={() =>
                       setShowSc2ReplayStatsAuthKey(!showSc2ReplayStatsAuthKey)
                     }
-                    title={`${
-                      showSc2ReplayStatsAuthKey ? "Hide" : "Show"
-                    } API Key`}
+                    title={
+                      showSc2ReplayStatsAuthKey
+                        ? t("hideApiKeyButtonTitle")
+                        : t("showApiKeyButtonTitle")
+                    }
                   />
                   <Button
                     disabled={loading}
                     icon={IconNames.HELP}
-                    title={"Show help"}
+                    title={t("showHelpButtonTitle")}
                     onClick={() => setSc2ReplayStatsHelpOverlayOpen(true)}
                   />
                 </Fragment>
@@ -253,7 +286,7 @@ function ExportOptionFragment(props) {
               setLoading(false);
             }}
           >
-            Export
+            {t("exportButtonLabel")}
           </Button>
           {sc2ReplayStatsExportedReplays.length === 0 ? null : (
             <Menu className={"ExportActionsCard-sc2replaystats-export-list"}>
@@ -292,42 +325,55 @@ function ExportOptionFragment(props) {
             </Menu>
           )}
           <Dialog
-            title={"How to find your Sc2ReplayStats API Key"}
+            title={t("sc2ReplayStatsHelpDialogTitle")}
             isOpen={sc2ReplayStatsHelpOverlayOpen}
             onClose={() => setSc2ReplayStatsHelpOverlayOpen(false)}
           >
             <UL>
               <li>
-                Sign in to{" "}
-                <a
-                  href="https://sc2replaystats.com/Account/signin"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                <Trans
+                  i18nKey={"sc2ReplayStatsHelpDialogStep1"}
+                  components={{
+                    Sc2ReplayStats: <Sc2ReplayStats />,
+                  }}
                 >
-                  Sc2ReplayStats
-                </a>
+                  {t("sc2ReplayStatsHelpDialogStep1")}
+                </Trans>
               </li>
               <li>
-                In the navigation bar, navigate through to{" "}
-                <Tag large={true}>My Account</Tag>{" "}
-                <Icon icon={IconNames.ARROW_RIGHT} />{" "}
-                <Tag large={true}>Settings</Tag>
+                <Trans
+                  i18nKey={"sc2ReplayStatsHelpDialogStep2"}
+                  components={{
+                    MyAccountThenSettings: <MyAccountThenSettings />,
+                  }}
+                >
+                  {t("sc2ReplayStatsHelpDialogStep2")}
+                </Trans>
               </li>
               <li>
-                Click <Tag large={true}>API Access</Tag> in the side menu.
+                <Trans
+                  i18nKey={"sc2ReplayStatsHelpDialogStep3"}
+                  components={{
+                    ApiAccess: <ApiAccess />,
+                  }}
+                >
+                  {t("sc2ReplayStatsHelpDialogStep3")}
+                </Trans>
               </li>
-              <li>
-                <Tag round={true} minimal={true}>
-                  <em>Optional&nbsp;</em>
-                </Tag>{" "}
-                Click the <Tag large={true}>Generate New API Key</Tag> button.
-              </li>
-              <li>Copy your authorization key and paste it into Cerebrate.</li>
+              <Trans
+                i18nKey={"sc2ReplayStatsHelpDialogStep4"}
+                components={{
+                  GenerateApiKey: <GenerateApiKey />,
+                }}
+              >
+                {t("sc2ReplayStatsHelpDialogStep4")}
+              </Trans>
+              <li>{t("sc2ReplayStatsHelpDialogStep5")}</li>
             </UL>
             <div className={Classes.DIALOG_FOOTER}>
               <div className={Classes.DIALOG_FOOTER_ACTIONS}>
                 <Button onClick={() => setSc2ReplayStatsHelpOverlayOpen(false)}>
-                  Close
+                  {t("close")}
                 </Button>
               </div>
             </div>
@@ -360,6 +406,7 @@ export class ExportActionsCard extends React.Component {
 
   render() {
     const {
+      t,
       className,
       disabled,
       loading,
@@ -372,22 +419,22 @@ export class ExportActionsCard extends React.Component {
 
     return (
       <Card className={className}>
-        <H5>Export actions</H5>
-        <FormGroup label={"Export replay(s) to"}>
+        <H5>{t("exportActionsHeader")}</H5>
+        <FormGroup label={t("exportTargetPickerLabel")}>
           <HTMLSelect
             fill={true}
             options={[
-              { label: "Temporary directory", value: "tempDir" },
+              { label: t("exportToTempDirOptionLabel"), value: "tempDir" },
               {
-                label: "Choose directory...",
+                label: t("exportToTargetDirOptionLabel"),
                 value: "chooseDir",
               },
               {
-                label: "Scelight",
+                label: t("exportToScelightOptionLabel"),
                 value: "scelight",
               },
               {
-                label: "Sc2ReplayStats",
+                label: t("exportToSc2ReplayStatsOptionLabel"),
                 value: "sc2replaystats",
               },
             ]}
@@ -400,6 +447,7 @@ export class ExportActionsCard extends React.Component {
           />
         </FormGroup>
         <ExportOptionFragment
+          t={t}
           disabled={disabled}
           loading={loading}
           setLoading={setLoading}

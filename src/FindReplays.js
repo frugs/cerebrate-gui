@@ -219,6 +219,7 @@ export class FindReplays extends React.Component {
                 </Alert>
               </Card>
               <ExportActionsCard
+                t={t}
                 className={"FindReplays-result-options-card"}
                 loading={this.state.exportReplaysButtonLoading}
                 setLoading={(loading) =>
